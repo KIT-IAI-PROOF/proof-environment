@@ -1,0 +1,47 @@
+services:
+
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:latest
+    restart: always
+    networks:
+      - proof
+    volumes:
+      - "../keycloak/themes:/opt/keycloak/themes:rw"
+      - "../keycloak/import:/opt/keycloak/data/import:rw"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+    command:
+      - "start-dev"
+      - "--import-realm"
+    ports:
+      - '8080:8080'
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    networks:
+      - proof
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_ENCODING: UNICODE
+      POSTGRES_COLLATE: C
+      POSTGRES_COLLATE_TYPE: C
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+
+networks:
+
+  proof:
+    external: false
+    name: proof

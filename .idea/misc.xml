@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GitLabDefaultAccount">
+    <option name="defaultAccountId" value="c76c4d84-1a7f-4319-8335-344ac272f99f" />
+  </component>
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
