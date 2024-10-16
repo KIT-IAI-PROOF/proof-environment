@@ -30,13 +30,14 @@ services:
     networks:
       - proof
     environment:
-      POSTGRES_DB: keycloak
       POSTGRES_PASSWORD: admin
       POSTGRES_USER: admin
       POSTGRES_ENCODING: UNICODE
       POSTGRES_COLLATE: C
       POSTGRES_COLLATE_TYPE: C
       PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "../postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro"
     ports:
       - '5432:5432'
 
