@@ -41,6 +41,31 @@ services:
     ports:
       - '5432:5432'
 
+#  elasticsearch:
+#    container_name: elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+#    restart: always
+#    networks:
+#      - proof
+#    environment:
+#      - discovery.type=single-node
+#    ports:
+#      - '9200:9200'
+#      - '9300:9300'
+#
+#  rabbitmq:
+#    container_name: rabbitmq
+#    image: rabbitmq:3-management
+#    restart: always
+#    networks:
+#      - proof
+#    environment:
+#      RABBITMQ_DEFAULT_USER: admin
+#      RABBITMQ_DEFAULT_PASS: admin
+#    ports:
+#      - '5672:5672'
+#      - '15672:15672'
+
 networks:
 
   proof:
