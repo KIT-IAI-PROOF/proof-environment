@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run" type="docker-deploy" factoryName="docker-compose.yml" server-name="PROOF">
+  <configuration default="false" name="Run all" type="docker-deploy" factoryName="docker-compose.yml" server-name="PROOF">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value="" />

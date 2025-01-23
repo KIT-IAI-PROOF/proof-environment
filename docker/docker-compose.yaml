@@ -39,7 +39,7 @@ services:
     volumes:
       - "../postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro"
     ports:
-      - '5432:5432'
+      - "5432:5432"
 
   redis:
     container_name: redis
@@ -48,32 +48,34 @@ services:
     networks:
       - proof
     ports:
-      - '6379:6379'
+      - "6379:6379"
 
-#  elasticsearch:
-#    container_name: elasticsearch
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
-#    restart: always
-#    networks:
-#      - proof
-#    environment:
-#      - discovery.type=single-node
-#    ports:
-#      - '9200:9200'
-#      - '9300:9300'
-#
-#  rabbitmq:
-#    container_name: rabbitmq
-#    image: rabbitmq:3-management
-#    restart: always
-#    networks:
-#      - proof
-#    environment:
-#      RABBITMQ_DEFAULT_USER: admin
-#      RABBITMQ_DEFAULT_PASS: admin
-#    ports:
-#      - '5672:5672'
-#      - '15672:15672'
+  config-manager:
+    container_name: config-manager
+    image: proof-config-manager:latest
+    restart: always
+    networks:
+      - proof
+    environment:
+      SPRING_PROFILES_ACTIVE: "dev"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/proof"
+      SPRING_DATA_REDIS_HOST: "redis"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER: http://keycloak:8080/realms/proof
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://keycloak:8080/realms/proof/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://keycloak:8080/realms/proof/protocol/openid-connect/token
+    ports:
+      - "8100:8100"
+
+  frontend:
+    image: proof-ui:latest
+    container_name: frontend
+    restart: always
+    environment:
+      - NODE_ENV=production
+    networks:
+      - proof
+    ports:
+      - "80:80"
 
 networks:
 
