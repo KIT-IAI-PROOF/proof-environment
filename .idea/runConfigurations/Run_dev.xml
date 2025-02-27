@@ -8,6 +8,7 @@
             <option value="keycloak" />
             <option value="postgres" />
             <option value="redis" />
+            <option value="rabbitmq" />
           </list>
         </option>
         <option name="sourceFilePath" value="docker/docker-compose.yaml" />
