@@ -60,6 +60,7 @@ services:
       SPRING_PROFILES_ACTIVE: "dev"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/proof"
       SPRING_DATA_REDIS_HOST: "redis"
+      WEBSOCKET_BROKER_RELAYHOST: "rabbitmq"
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER: http://keycloak:8080/realms/proof
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://keycloak:8080/realms/proof/protocol/openid-connect/token
