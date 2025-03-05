@@ -52,7 +52,7 @@ services:
 
   config-manager:
     container_name: config-manager
-    image: proof-config-manager:latest
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.4
     restart: always
     networks:
       - proof
@@ -66,17 +66,6 @@ services:
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://keycloak:8080/realms/proof/protocol/openid-connect/token
     ports:
       - "8100:8100"
-
-#  frontend:
-#    image: proof-ui:latest
-#    container_name: frontend
-#    restart: always
-#    environment:
-#      - NODE_ENV=production
-#    networks:
-#      - proof
-#    ports:
-#      - "80:80"
 
   rabbitmq:
     image: rabbitmq:4-management-alpine
