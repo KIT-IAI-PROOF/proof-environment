@@ -66,16 +66,16 @@ services:
     ports:
       - "8100:8100"
 
-  frontend:
-    image: proof-ui:latest
-    container_name: frontend
-    restart: always
-    environment:
-      - NODE_ENV=production
-    networks:
-      - proof
-    ports:
-      - "80:80"
+#  frontend:
+#    image: proof-ui:latest
+#    container_name: frontend
+#    restart: always
+#    environment:
+#      - NODE_ENV=production
+#    networks:
+#      - proof
+#    ports:
+#      - "80:80"
 
   rabbitmq:
     image: rabbitmq:4-management-alpine
