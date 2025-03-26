@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Development" type="docker-deploy" factoryName="docker-compose.yml" server-name="PROOF">
+    <deployment type="docker-compose.yml">
+      <settings>
+        <option name="composeProjectName" value="proof" />
+        <option name="envFilePath" value="" />
+        <option name="services">
+          <list>
+            <option value="keycloak" />
+            <option value="postgres" />
+            <option value="rabbitmq" />
+            <option value="redis" />
+          </list>
+        </option>
+        <option name="sourceFilePath" value="docker/docker-compose.yaml" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>
