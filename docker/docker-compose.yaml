@@ -21,7 +21,7 @@ services:
       - "start-dev"
       - "--import-realm"
     ports:
-      - '8080:8080'
+      - "8080:8080"
 
   postgres:
     container_name: postgres
@@ -52,7 +52,7 @@ services:
 
   config-manager:
     container_name: config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.16
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.19
     restart: always
     networks:
       - proof
@@ -69,7 +69,7 @@ services:
 
   frontend:
     container_name: frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.11
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.14
     restart: always
     networks:
       - proof
