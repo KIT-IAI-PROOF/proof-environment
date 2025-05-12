@@ -7,7 +7,7 @@ services:
     networks:
       - proof
     volumes:
-      - "../keycloak/themes:/opt/keycloak/themes:rw"
+      - "../keycloak/providers:/opt/keycloak/providers:rw"
       - "../keycloak/import:/opt/keycloak/data/import:rw"
     environment:
       KEYCLOAK_ADMIN: admin
@@ -52,7 +52,7 @@ services:
 
   config-manager:
     container_name: config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.19
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.23
     restart: always
     networks:
       - proof
@@ -69,7 +69,7 @@ services:
 
   frontend:
     container_name: frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.14
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.17
     restart: always
     networks:
       - proof

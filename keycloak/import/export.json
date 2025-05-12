@@ -38,6 +38,7 @@
   "bruteForceProtected" : false,
   "permanentLockout" : false,
   "maxTemporaryLockouts" : 0,
+  "bruteForceStrategy": "MULTIPLE",
   "maxFailureWaitSeconds" : 900,
   "minimumQuickLoginWaitSeconds" : 60,
   "waitIncrementSeconds" : 60,
@@ -433,6 +434,7 @@
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
     "attributes" : {
+      "realm_client": "false",
       "post.logout.redirect.uris" : "+"
     },
     "authenticationFlowBindingOverrides" : { },
@@ -463,6 +465,7 @@
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
     "attributes" : {
+      "realm_client": "false",
       "post.logout.redirect.uris" : "+",
       "pkce.code.challenge.method" : "S256"
     },
@@ -500,10 +503,12 @@
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
     "attributes" : {
+      "realm_client": "false",
+      "client.use.lightweight.access.token.enabled": "true",
       "post.logout.redirect.uris" : "+"
     },
     "authenticationFlowBindingOverrides" : { },
-    "fullScopeAllowed" : false,
+    "fullScopeAllowed": true,
     "nodeReRegistrationTimeout" : 0,
     "defaultClientScopes" : [ "web-origins", "acr", "roles", "profile", "basic", "email" ],
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
@@ -528,6 +533,7 @@
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
     "attributes" : {
+      "realm_client": "true",
       "post.logout.redirect.uris" : "+"
     },
     "authenticationFlowBindingOverrides" : { },
@@ -547,7 +553,11 @@
     "enabled" : true,
     "alwaysDisplayInConsole" : true,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "http://localhost:3000/*", "http://localhost:80/*", "http://localhost/*" ],
+    "redirectUris": [
+      "http://localhost:80/*",
+      "http://localhost:3000/*",
+      "http://localhost/*"
+    ],
     "webOrigins" : [ "*" ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -560,9 +570,11 @@
     "frontchannelLogout" : true,
     "protocol" : "openid-connect",
     "attributes" : {
+      "realm_client": "false",
       "oidc.ciba.grant.enabled" : "false",
       "backchannel.logout.session.required" : "true",
-      "post.logout.redirect.uris" : "http://localhost:3000/*",
+      "post.logout.redirect.uris": "http://localhost:3000/*##http://localhost:80/*##http://localhost/*",
+      "display.on.consent.screen": "false",
       "oauth2.device.authorization.grant.enabled" : "false",
       "backchannel.logout.revoke.offline.tokens" : "false"
     },
@@ -592,6 +604,7 @@
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
     "attributes" : {
+      "realm_client": "true",
       "post.logout.redirect.uris" : "+"
     },
     "authenticationFlowBindingOverrides" : { },
@@ -622,11 +635,13 @@
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
     "attributes" : {
+      "realm_client": "false",
+      "client.use.lightweight.access.token.enabled": "true",
       "post.logout.redirect.uris" : "+",
       "pkce.code.challenge.method" : "S256"
     },
     "authenticationFlowBindingOverrides" : { },
-    "fullScopeAllowed" : false,
+    "fullScopeAllowed": true,
     "nodeReRegistrationTimeout" : 0,
     "protocolMappers" : [ {
       "id" : "9210cb2e-a9b0-48e8-a0d0-54c4de736174",
@@ -1188,7 +1203,7 @@
     "strictTransportSecurity" : "max-age=31536000; includeSubDomains"
   },
   "smtpServer" : { },
-  "loginTheme" : "proof",
+  "loginTheme": "keycloakify-starter",
   "accountTheme" : "",
   "adminTheme" : "",
   "emailTheme" : "",
@@ -1217,7 +1232,16 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "saml-user-attribute-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-attribute-mapper", "oidc-address-mapper", "saml-role-list-mapper", "oidc-usermodel-property-mapper", "saml-user-property-mapper", "oidc-full-name-mapper" ]
+        "allowed-protocol-mapper-types": [
+          "oidc-sha256-pairwise-sub-mapper",
+          "oidc-usermodel-attribute-mapper",
+          "saml-role-list-mapper",
+          "oidc-address-mapper",
+          "oidc-full-name-mapper",
+          "oidc-usermodel-property-mapper",
+          "saml-user-property-mapper",
+          "saml-user-attribute-mapper"
+        ]
       }
     }, {
       "id" : "a4836747-b171-4ab7-a3a3-4594ff1640db",
@@ -1226,7 +1250,16 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper", "oidc-full-name-mapper", "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-property-mapper", "oidc-address-mapper" ]
+        "allowed-protocol-mapper-types": [
+          "oidc-full-name-mapper",
+          "saml-user-property-mapper",
+          "saml-role-list-mapper",
+          "oidc-usermodel-property-mapper",
+          "oidc-usermodel-attribute-mapper",
+          "saml-user-attribute-mapper",
+          "oidc-address-mapper",
+          "oidc-sha256-pairwise-sub-mapper"
+        ]
       }
     }, {
       "id" : "96c33afa-1de8-4fe4-a7d0-b03471fc4a32",
@@ -1884,7 +1917,7 @@
     "clientSessionMaxLifespan" : "0",
     "organizationsEnabled" : "false"
   },
-  "keycloakVersion" : "25.0.6",
+  "keycloakVersion": "26.0.5",
   "userManagedAccessAllowed" : false,
   "organizationsEnabled" : false,
   "clientProfiles" : {
