@@ -52,12 +52,11 @@ services:
 
   config-manager:
     container_name: config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.25
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.27
     restart: always
     networks:
       - proof
     environment:
-      SPRING_PROFILES_ACTIVE: "dev"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/proof"
       SPRING_DATA_REDIS_HOST: "redis"
       WEBSOCKET_BROKER_RELAYHOST: "rabbitmq"
