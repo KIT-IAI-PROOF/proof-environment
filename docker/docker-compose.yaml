@@ -3,7 +3,7 @@ services:
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:latest
-    restart: always
+    restart: no
     networks:
       - proof
     volumes:
@@ -26,7 +26,7 @@ services:
   postgres:
     container_name: postgres
     image: postgres:latest
-    restart: always
+    restart: no
     networks:
       - proof
     environment:
@@ -44,7 +44,7 @@ services:
   redis:
     container_name: redis
     image: redis:latest
-    restart: always
+    restart: no
     networks:
       - proof
     ports:
@@ -52,11 +52,12 @@ services:
 
   config-manager:
     container_name: config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.27
-    restart: always
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.0.25
+    restart: no
     networks:
       - proof
     environment:
+      SPRING_PROFILES_ACTIVE: "dev"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/proof"
       SPRING_DATA_REDIS_HOST: "redis"
       WEBSOCKET_BROKER_RELAYHOST: "rabbitmq"
@@ -69,7 +70,7 @@ services:
   frontend:
     container_name: frontend
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.19
-    restart: always
+    restart: no
     networks:
       - proof
     ports:
@@ -78,7 +79,7 @@ services:
   rabbitmq:
     image: rabbitmq:4-management-alpine
     container_name: rabbitmq
-    restart: always
+    restart: no
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
