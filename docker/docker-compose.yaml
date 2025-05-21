@@ -57,7 +57,6 @@ services:
     networks:
       - proof
     environment:
-      SPRING_PROFILES_ACTIVE: "dev"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/proof"
       SPRING_DATA_REDIS_HOST: "redis"
       WEBSOCKET_BROKER_RELAYHOST: "rabbitmq"
