@@ -52,7 +52,7 @@ services:
 
   config-manager:
     container_name: config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.1.2
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.1.3
     restart: no
     networks:
       - proof
@@ -68,7 +68,7 @@ services:
 
   frontend:
     container_name: frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.20
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.21
     restart: no
     networks:
       - proof
