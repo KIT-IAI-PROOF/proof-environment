@@ -68,7 +68,7 @@ services:
 
   frontend:
     container_name: frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.21
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.22
     restart: no
     networks:
       - proof
@@ -84,6 +84,8 @@ services:
       RABBITMQ_DEFAULT_PASS: admin
     volumes:
       - "../rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro"
+      - "../rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro"
+      - "../rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
     networks:
       - proof
     ports:
