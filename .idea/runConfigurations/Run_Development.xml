@@ -4,15 +4,12 @@
       <settings>
         <option name="composeProjectName" value="proof" />
         <option name="envFilePath" value="" />
-        <option name="removeVolumesOnComposeDown" value="true" />
-        <option name="services">
+        <option name="envFilePaths">
           <list>
-            <option value="keycloak" />
-            <option value="postgres" />
-            <option value="rabbitmq" />
-            <option value="redis" />
+            <option value="" />
           </list>
         </option>
+        <option name="removeVolumesOnComposeDown" value="true" />
         <option name="sourceFilePath" value="docker/docker-compose.yaml" />
       </settings>
     </deployment>
