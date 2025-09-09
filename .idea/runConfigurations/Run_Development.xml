@@ -10,6 +10,16 @@
           </list>
         </option>
         <option name="removeVolumesOnComposeDown" value="true" />
+        <option name="services">
+          <list>
+            <option value="proof-redis" />
+            <option value="proof-rabbitmq" />
+            <option value="proof-postgres" />
+            <option value="proof-keycloak" />
+            <option value="proof-orchestrator" />
+            <option value="proof-config-manager" />
+          </list>
+        </option>
         <option name="sourceFilePath" value="docker/docker-compose.yaml" />
       </settings>
     </deployment>
