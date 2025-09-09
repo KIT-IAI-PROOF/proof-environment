@@ -2,21 +2,25 @@ services:
 
   proof-keycloak:
     container_name: proof-keycloak
-    image: quay.io/keycloak/keycloak:26.3
+    image: quay.io/keycloak/keycloak:26.3.3
     restart: always
     networks:
       - proof
     volumes:
-      - "../keycloak/providers:/opt/keycloak/providers:rw"
-      - "../keycloak/import:/opt/keycloak/data/import:rw"
+      - "../services/keycloak/providers:/opt/keycloak/providers:rw"
+      - "../services/keycloak/import:/opt/keycloak/data/import:rw"
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KC_DB: postgres
       KC_DB_USERNAME: admin
       KC_DB_PASSWORD: admin
       KC_DB_URL_PORT: 5432
       KC_DB_URL: jdbc:postgresql://proof-postgres:5432/keycloak
+      JAVA_OPTS_APPEND: "-XX:UseSVE=0"
+    depends_on:
+      proof-postgres:
+        condition: service_healthy
     command:
       - "start-dev"
       - "--import-realm"
@@ -38,7 +42,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - "proof-postgres:/var/lib/postgresql/data:rw"
-      - "../postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro"
+      - "../services/postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro"
     ports:
       - "5432:5432"
     healthcheck:
@@ -74,6 +78,27 @@ services:
     ports:
       - "8100:8100"
 
+  proof-orchestrator:
+    container_name: proof-orchestrator
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.2.0
+    restart: always
+    volumes:
+      - "proof-files:/tmp/proof:rw"
+      - "../services/orchestrator/proof-run-configurator.properties:/proof-run-configurator.properties:ro"
+      - "../services/orchestrator/proof-run-configurator-own.properties:/proof-run-configurator-own.properties:ro"
+    networks:
+      - proof
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://proof-postgres:5432/proof"
+      SPRING_DATA_REDIS_HOST: "proof-redis"
+      SPRING_RABBITMQ_HOST: "proof-rabbitmq"
+      WEBSOCKET_BROKER_RELAYHOST: "proof-rabbitmq"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER: http://proof-keycloak:8080/realms/proof
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
+    ports:
+      - "8090:8090"
+
   proof-frontend:
     container_name: proof-frontend
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.25
@@ -91,9 +116,9 @@ services:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
     volumes:
-      - "../rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro"
-      - "../rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro"
-      - "../rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
+      - "../services/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro"
+      - "../services/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro"
+      - "../services/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
     networks:
       - proof
     ports:
@@ -109,7 +134,7 @@ services:
     networks:
       - proof
     ports:
-      - "3000:3000"
+      - "3100:3100"
     environment:
       DATABASE_URL: "postgresql://admin:admin@proof-postgres:5432/umami"
       DATABASE_TYPE: "postgresql"
