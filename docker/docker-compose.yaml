@@ -106,6 +106,7 @@ services:
     container_name: proof-frontend
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.25
     restart: always
+    platform: linux/amd64
     networks:
       - proof
     ports:
