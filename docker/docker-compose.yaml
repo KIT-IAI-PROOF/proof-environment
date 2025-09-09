@@ -138,11 +138,10 @@ services:
     networks:
       - proof
     ports:
-      - "3100:3100"
+      - "3100:3000"
     environment:
       DATABASE_URL: "postgresql://admin:admin@proof-postgres:5432/umami"
       DATABASE_TYPE: "postgresql"
-      APP_SECRET: "secret"
     depends_on:
       proof-postgres:
         condition: service_healthy
