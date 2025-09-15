@@ -17,8 +17,6 @@ services:
       KC_DB_PASSWORD: admin
       KC_DB_URL_PORT: 5432
       KC_DB_URL: jdbc:postgresql://proof-postgres:5432/keycloak
-      JAVA_OPTS_APPEND: "-XX:UseSVE=0"
-      JAVA_OPTS_KC_HEAP: "-XX:UseSVE=0"
     depends_on:
       proof-postgres:
         condition: service_healthy
@@ -104,7 +102,7 @@ services:
 
   proof-frontend:
     container_name: proof-frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.25
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.26
     restart: always
     platform: linux/amd64
     networks:
