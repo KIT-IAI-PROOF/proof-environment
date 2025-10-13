@@ -61,7 +61,7 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.1.13
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.1.15
     restart: always
     platform: linux/amd64
     volumes:
@@ -102,7 +102,7 @@ services:
 
   proof-frontend:
     container_name: proof-frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.26
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.27
     restart: always
     platform: linux/amd64
     networks:
@@ -128,27 +128,6 @@ services:
       - "15672:15672"
       - "15674:15674"
       - "61613:61613"
-
-  proof-umami:
-    image: ghcr.io/umami-software/umami:postgresql-latest
-    container_name: proof-umami
-    restart: always
-    networks:
-      - proof
-    ports:
-      - "3100:3000"
-    environment:
-      DATABASE_URL: "postgresql://admin:admin@proof-postgres:5432/umami"
-      DATABASE_TYPE: "postgresql"
-    depends_on:
-      proof-postgres:
-        condition: service_healthy
-    init: true
-    healthcheck:
-      test: [ "CMD-SHELL", "curl http://localhost:3000/api/heartbeat" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
 
 volumes:
   proof-files:
