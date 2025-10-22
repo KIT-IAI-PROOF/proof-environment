@@ -2,16 +2,18 @@ services:
 
   proof-keycloak:
     container_name: proof-keycloak
-    image: quay.io/keycloak/keycloak:26.0.7
+    image: quay.io/keycloak/keycloak:26.3.1
     restart: always
     networks:
       - proof
     volumes:
-      - "../services/keycloak/providers:/opt/keycloak/providers:rw"
-      - "../services/keycloak/import:/opt/keycloak/data/import:rw"
+      - "./config/keycloak/themes:/opt/keycloak/themes:rw"
+      - "./config/keycloak/import:/opt/keycloak/data/import:rw"
+      - "./config/keycloak/providers:/opt/keycloak/providers:rw"
     environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: admin
-      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "admin"
+      KC_PROXY_ADDRESS_FORWARDING: "true"
       KC_DB: postgres
       KC_DB_USERNAME: admin
       KC_DB_PASSWORD: admin
@@ -41,7 +43,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - "proof-postgres:/var/lib/postgresql/data:rw"
-      - "../services/postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro"
+      - "./config/postgres/scripts/init.sh:/docker-entrypoint-initdb.d/init.sh:ro"
     ports:
       - "5432:5432"
     healthcheck:
@@ -85,8 +87,8 @@ services:
     platform: linux/amd64
     volumes:
       - "proof-files:/tmp/proof:rw"
-      - "../services/orchestrator/proof-run-configurator.properties:/proof-run-configurator.properties:ro"
-      - "../services/orchestrator/proof-run-configurator-own.properties:/proof-run-configurator-own.properties:ro"
+      - "./config/orchestrator/proof-run-configurator.properties:/proof-run-configurator.properties:ro"
+      - "./config/orchestrator/proof-run-configurator-own.properties:/proof-run-configurator-own.properties:ro"
     networks:
       - proof
     environment:
@@ -118,9 +120,9 @@ services:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
     volumes:
-      - "../services/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro"
-      - "../services/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro"
-      - "../services/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
+      - "./config/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro"
+      - "./config/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro"
+      - "./config/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
     networks:
       - proof
     ports:
