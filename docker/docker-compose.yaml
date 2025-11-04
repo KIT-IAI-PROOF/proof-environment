@@ -3,7 +3,7 @@ services:
   proof-keycloak:
     container_name: proof-keycloak
     image: quay.io/keycloak/keycloak:26.3.1
-    restart: always
+    restart: no
     networks:
       - proof
     volumes:
@@ -31,7 +31,7 @@ services:
   proof-postgres:
     container_name: proof-postgres
     image: docker.io/library/postgres:17.6-alpine
-    restart: always
+    restart: no
     networks:
       - proof
     environment:
@@ -55,7 +55,7 @@ services:
   proof-redis:
     container_name: proof-redis
     image: docker.io/library/redis:8.2
-    restart: always
+    restart: no
     networks:
       - proof
     ports:
@@ -64,7 +64,7 @@ services:
   proof-config-manager:
     container_name: proof-config-manager
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.1.16
-    restart: always
+    restart: no
     platform: linux/amd64
     volumes:
       - "proof-files:/tmp/proof:rw"
@@ -82,13 +82,14 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.2.0
-    restart: always
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.5.0
+    restart: no
     platform: linux/amd64
     volumes:
       - "proof-files:/tmp/proof:rw"
       - "./config/orchestrator/proof-run-configurator.properties:/proof-run-configurator.properties:ro"
       - "./config/orchestrator/proof-run-configurator-own.properties:/proof-run-configurator-own.properties:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - proof
     environment:
@@ -99,13 +100,18 @@ services:
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER: http://proof-keycloak:8080/realms/proof
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
+      PROOF_CONFIG_BASEPATH: http://proof-config-manager:8100
     ports:
       - "8090:8090"
+    depends_on:
+      proof-rabbitmq:
+        condition: service_healthy
+
 
   proof-frontend:
     container_name: proof-frontend
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.27
-    restart: always
+    restart: no
     platform: linux/amd64
     networks:
       - proof
@@ -115,7 +121,7 @@ services:
   proof-rabbitmq:
     image: docker.io/library/rabbitmq:4-management-alpine
     container_name: proof-rabbitmq
-    restart: always
+    restart: no
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
@@ -130,6 +136,11 @@ services:
       - "15672:15672"
       - "15674:15674"
       - "61613:61613"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
 volumes:
   proof-files:
