@@ -146,6 +146,11 @@ volumes:
   proof-files:
     external: false
     name: proof-files
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ../data
   proof-postgres:
     external: false
     name: proof-postgres
