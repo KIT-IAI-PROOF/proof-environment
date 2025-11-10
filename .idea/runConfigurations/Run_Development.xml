@@ -17,7 +17,6 @@
             <option value="proof-postgres" />
             <option value="proof-keycloak" />
             <option value="proof-orchestrator" />
-            <option value="proof-config-manager" />
           </list>
         </option>
         <option name="sourceFilePath" value="docker/docker-compose.yaml" />
