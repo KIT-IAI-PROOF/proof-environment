@@ -16,7 +16,6 @@
             <option value="proof-rabbitmq" />
             <option value="proof-postgres" />
             <option value="proof-keycloak" />
-            <option value="proof-orchestrator" />
           </list>
         </option>
         <option name="sourceFilePath" value="docker/docker-compose.yaml" />
