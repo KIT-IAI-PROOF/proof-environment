@@ -63,7 +63,7 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.2.19
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.2.22
     restart: always
     platform: linux/amd64
     volumes:
@@ -76,7 +76,6 @@ services:
       SPRING_DATA_REDIS_HOST: "proof-redis"
       SPRING_RABBITMQ_HOST: "proof-rabbitmq"
       WEBSOCKET_BROKER_RELAYHOST: "proof-rabbitmq"
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER: http://proof-keycloak:8080/realms/proof
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
     ports:
@@ -87,7 +86,7 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.6.6
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.6.7
     restart: always
     platform: linux/amd64
     volumes:
@@ -101,7 +100,6 @@ services:
       SPRING_DATA_REDIS_HOST: "proof-redis"
       SPRING_RABBITMQ_HOST: "proof-rabbitmq"
       WEBSOCKET_BROKER_RELAYHOST: "proof-rabbitmq"
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER: http://proof-keycloak:8080/realms/proof
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
       PROOF_CONFIG_BASEPATH: http://proof-config-manager:8100
@@ -114,7 +112,7 @@ services:
 
   proof-frontend:
     container_name: proof-frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.39
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.40
     restart: always
     platform: linux/amd64
     networks:
