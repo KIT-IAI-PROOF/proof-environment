@@ -63,7 +63,7 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.2.22
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.2.23
     restart: always
     platform: linux/amd64
     volumes:
@@ -86,7 +86,7 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.6.7
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.6.8
     restart: always
     platform: linux/amd64
     volumes:
