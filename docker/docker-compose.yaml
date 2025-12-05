@@ -63,7 +63,7 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.3.3
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.3.4
     restart: always
     platform: linux/amd64
     volumes:
