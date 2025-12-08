@@ -103,6 +103,9 @@ services:
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
       PROOF_CONFIG_BASEPATH: http://proof-config-manager:8100
+      PROOF_ORCHESTRATION_LOGLEVEL: DEBUG
+      PROOF_WORKER_LOGLEVEL: DEBUG
+      PROOF_WORKSPACEDIR: /tmp/proof
     ports:
       - "8200:8200"
     depends_on:
@@ -140,8 +143,8 @@ services:
       - "61613:61613"
     healthcheck:
       test: rabbitmq-diagnostics -q ping
-      interval: 30s
-      timeout: 30s
+      interval: 10s
+      timeout: 10s
       retries: 3
 
 volumes:
