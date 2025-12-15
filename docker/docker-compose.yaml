@@ -1,0 +1,166 @@
+services:
+
+  proof-keycloak:
+    container_name: proof-keycloak
+    image: quay.io/keycloak/keycloak:26.3.1
+    restart: no
+    networks:
+      - proof
+    volumes:
+      - "./config/keycloak/themes:/opt/keycloak/themes:rw"
+      - "./config/keycloak/import:/opt/keycloak/data/import:rw"
+      - "./config/keycloak/providers:/opt/keycloak/providers:rw"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: "admin"
+      KC_BOOTSTRAP_ADMIN_PASSWORD: "admin"
+      KC_PROXY_ADDRESS_FORWARDING: "true"
+      KC_DB: postgres
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL: jdbc:postgresql://proof-postgres:5432/keycloak
+    depends_on:
+      proof-postgres:
+        condition: service_healthy
+    command:
+      - "start-dev"
+      - "--import-realm"
+    ports:
+      - "8080:8080"
+
+  proof-postgres:
+    container_name: proof-postgres
+    image: docker.io/library/postgres:17.6-alpine
+    restart: no
+    networks:
+      - proof
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_ENCODING: UNICODE
+      POSTGRES_COLLATE: C
+      POSTGRES_COLLATE_TYPE: C
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - "proof-postgres:/var/lib/postgresql/data:rw"
+      - "./config/postgres/scripts/init.sh:/docker-entrypoint-initdb.d/init.sh:ro"
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -h proof-postgres -U admin -d postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  proof-redis:
+    container_name: proof-redis
+    image: docker.io/library/redis:8.2
+    restart: no
+    networks:
+      - proof
+    ports:
+      - "6379:6379"
+
+  proof-config-manager:
+    container_name: proof-config-manager
+    image: ghcr.io/kit-iai-proof/proof-config-manager:1.3.6
+    restart: no
+    platform: linux/amd64
+    volumes:
+      - "proof-files:/tmp/proof:rw"
+    networks:
+      - proof
+    environment:
+      SPRING_PROFILES_ACTIVE: "dev"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://proof-postgres:5432/proof"
+      SPRING_DATA_REDIS_HOST: "proof-redis"
+      SPRING_RABBITMQ_HOST: "proof-rabbitmq"
+      WEBSOCKET_BROKER_RELAYHOST: "proof-rabbitmq"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
+    ports:
+      - "8100:8100"
+    depends_on:
+      proof-rabbitmq:
+        condition: service_healthy
+
+  proof-orchestrator:
+    container_name: proof-orchestrator
+    image: ghcr.io/kit-iai-proof/proof-orchestrator:4.6.10
+    restart: no
+    platform: linux/amd64
+    volumes:
+      - "proof-files:/tmp/proof:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - proof
+    environment:
+      SPRING_PROFILES_ACTIVE: "dev"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://proof-postgres:5432/proof"
+      SPRING_DATA_REDIS_HOST: "proof-redis"
+      SPRING_RABBITMQ_HOST: "proof-rabbitmq"
+      WEBSOCKET_BROKER_RELAYHOST: "proof-rabbitmq"
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
+      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
+      PROOF_CONFIG_BASEPATH: http://proof-config-manager:8100
+      PROOF_ORCHESTRATION_LOGLEVEL: DEBUG
+      PROOF_WORKER_LOGLEVEL: DEBUG
+      PROOF_WORKSPACEDIR: /tmp/proof
+    ports:
+      - "8200:8200"
+    depends_on:
+      proof-rabbitmq:
+        condition: service_healthy
+
+
+  proof-frontend:
+    container_name: proof-frontend
+    image: ghcr.io/kit-iai-proof/proof-ui:3.0.59
+    restart: no
+    platform: linux/amd64
+    networks:
+      - proof
+    ports:
+      - "80:80"
+
+  proof-rabbitmq:
+    image: docker.io/library/rabbitmq:4-management-alpine
+    container_name: proof-rabbitmq
+    restart: no
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    volumes:
+      - "./config/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro"
+      - "./config/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro"
+      - "./config/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro"
+    networks:
+      - proof
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15674:15674"
+      - "61613:61613"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  proof-files:
+    external: false
+    name: proof-files
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ../data
+  proof-postgres:
+    external: false
+    name: proof-postgres
+
+networks:
+  proof:
+    external: false
+    name: proof
