@@ -1,0 +1,6 @@
+.idea
+/docker/config/.env
+/docker/config/keycloak/import/prod
+*.env
+.env
+.env.*
