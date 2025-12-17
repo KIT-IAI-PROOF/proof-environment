@@ -106,6 +106,7 @@ services:
       PROOF_ORCHESTRATION_LOGLEVEL: DEBUG
       PROOF_WORKER_LOGLEVEL: DEBUG
       PROOF_WORKSPACEDIR: /tmp/proof
+      PROOF_WORKER_LOGGING_LOGDIRECTORY: /tmp/proof/logs
     ports:
       - "8200:8200"
     depends_on:
