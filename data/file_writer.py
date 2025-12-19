@@ -15,6 +15,7 @@ from proofcore.models.SimulationPhase import SimulationPhase
 from proofcore.util.proofLogging import Logger, HandlerType
 from sys import exit
 from typing import Dict
+import os
 
 options, arguments = cliargparser.parse_known_args()
 
@@ -44,7 +45,7 @@ class FileWriter(BaseWrapper):
 
     async def init(self) -> None:
         logger.debug("initializing FileWriter, Values given:")
-        self.file_path = self.file_name
+        self.file_path = os.path.join(self.workspace_directory, self.file_name)
         logger.debug("filename: " + str(self.file_path))
         logger.debug("inputs: " + str(self.inputs))
         logger.debug("outputs: " + str(self.outputs))
