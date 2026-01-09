@@ -8,6 +8,7 @@ from proofcore.base.basewrapper import BaseWrapper, main
 from proofcore.models.BlockStatus import BlockStatus
 from proofcore.util.proofLogging import Logger, HandlerType
 from sys import exit
+import os
 
 options, arguments = cliargparser.parse_known_args()
 
@@ -41,7 +42,7 @@ class FileLineProvider(BaseWrapper):
 
     async def init(self) -> None:
         logger.debug("initializing FileLineProvider, Values given:")
-        self.file_path = self.file_name
+        self.file_path = os.path.join(self.workspace_directory, self.file_name)
         logger.debug("file_name: " + str(self.file_path))
         logger.debug("inputs: " + str(self.inputs))
         logger.debug("outputs: " + str(self.outputs))
@@ -84,7 +85,7 @@ class FileLineProvider(BaseWrapper):
         except Exception as e:
             error_txt = "Error in step() reading file line of '" + self.file_path + "' -> " + str(e) + "\n" + str(traceback.format_exc())
             logger.error(error_txt)
-            await self.send_notify(SimulationPhase.INIT, BlockStatus.ERROR_INIT, error_txt)
+            await self.send_notify(SimulationPhase.EXECUTE, BlockStatus.ERROR_STEP, error_txt)
 
     async def finalize(self) -> None:
         logger.debug("finalize() -> FileLineProvider executed the finalize method")
