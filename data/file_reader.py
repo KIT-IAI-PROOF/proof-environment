@@ -29,7 +29,7 @@ class FileReader(BaseWrapper):
         self.communication_point=-1     # local communication point for debugging, set by a value message before step() by the Worker
         self.currentStep = 0            # local current step number
         self.currentRow = 0             # local current row number
-        self.num_steps = 10             # number of lines to read from the file, can be set in the PROOF Block/Template
+        self.num_steps = -1             # max number of steps to perform reading one line from the file, can be set in the PROOF Block/Template
         self.line = None                # local variable to store the current line read from the file, set in step()
         self.file_name = None           # STEPBASED_STATIC, required input, set in init()
         self.file_path = None           # local path to the file to be read, set in init()
@@ -68,14 +68,20 @@ class FileReader(BaseWrapper):
         self.currentStep += 1
         logger.debug(f"processing STEP(CS: {self.currentStep};  num_steps: {self.num_steps})")
         try:
-            if self.currentStep > self.num_steps:
-                logger.debug(f"processing STEP; given number of steps reached ({self.num_steps}) -> EXECUTION FINISHED ")
+            if self.num_steps >= 0 and self.currentStep > self.num_steps:
+                logger.info(f"processing STEP {self.currentStep}; given number of steps reached ({self.num_steps}) -> EXECUTION FINISHED ")
                 await super(FileReader, self).step(BlockStatus.EXECUTION_FINISHED)
                 return
 
             if self.file is not None:
                 self.line = self.file.readline()
                 self.currentRow += 1
+                # Check when EOF is reached (empty string returned, empty line would be '\n')
+                eofReached = self.line == ''
+                if eofReached:
+                    logger.info(f"processing STEP {self.currentStep}; end of file reached after {self.currentRow} rows -> EXECUTION FINISHED ")
+                    await super(FileReader, self).step(BlockStatus.EXECUTION_FINISHED)
+                    return
             else:
                 raise ValueError("Error reading file '" + self.file_path + "': file is not opened yet")
 
