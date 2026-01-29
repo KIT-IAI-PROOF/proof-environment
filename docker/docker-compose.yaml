@@ -67,7 +67,7 @@ services:
     restart: no
     platform: linux/amd64
     volumes:
-      - "proof-files:/tmp/proof:rw"
+      - "proof-files:${PROOF_DIR}:rw"
     networks:
       - proof
     environment:
@@ -86,11 +86,11 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.7.4
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.7.5
     restart: no
     platform: linux/amd64
     volumes:
-      - "proof-files:/tmp/proof:rw"
+      - "proof-files:${PROOF_DIR}:rw"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - proof
@@ -103,10 +103,11 @@ services:
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
       PROOF_CONFIG_BASEPATH: http://proof-config-manager:8100
-      PROOF_ORCHESTRATION_LOGLEVEL: DEBUG
-      PROOF_WORKER_LOGLEVEL: DEBUG
-      PROOF_WORKSPACEDIR: /tmp/proof
-      PROOF_WORKER_LOGGING_LOGDIRECTORY: /tmp/proof/logs
+      PROOF_ORCHESTRATION_LOGLEVEL: ${PROOF_ORCHESTRATION_LOG_LEVEL}
+      PROOF_WORKER_LOGLEVEL: ${PROOF_WORKER_LOG_LEVEL}
+      PROOF_WORKSPACE_DIRECTORY: ${PROOF_DIR}
+      PROOF_WORKER_LOGGING_DIRECTORY: ${PROOF_DIR}/logs
+      PROOF_ATTACHMENTS_DIRECTORY: ${PROOF_DIR}/attachments
     ports:
       - "8200:8200"
     depends_on:
