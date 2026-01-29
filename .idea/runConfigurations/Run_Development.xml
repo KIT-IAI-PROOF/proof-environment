@@ -3,10 +3,10 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="composeProjectName" value="proof" />
-        <option name="envFilePath" value="" />
+        <option name="envFilePath" value="$PROJECT_DIR$/docker/proof.env" />
         <option name="envFilePaths">
           <list>
-            <option value="" />
+            <option value="$PROJECT_DIR$/docker/proof.env" />
           </list>
         </option>
         <option name="removeVolumesOnComposeDown" value="true" />
