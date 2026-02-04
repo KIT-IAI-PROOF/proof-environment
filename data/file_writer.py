@@ -42,7 +42,7 @@ class FileWriter(BaseWrapper):
 
     async def init(self) -> None:
         logger.debug("initializing FileWriter, Values given:")
-        self.file_path = os.path.join(self.workspace_directory, self.file_name)
+        self.file_path = os.path.join(self.userdata_directory, self.file_name)
         parent_path = os.path.dirname(self.file_path)
         if not os.path.exists(parent_path):
             logger.info(f"Parent path '{parent_path}' does not exist, creating folders")

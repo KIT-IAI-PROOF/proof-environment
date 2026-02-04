@@ -86,7 +86,7 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.7.5
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.0
     restart: no
     platform: linux/amd64
     volumes:
@@ -108,6 +108,7 @@ services:
       PROOF_WORKSPACE_DIRECTORY: ${PROOF_DIR}
       PROOF_WORKER_LOGGING_DIRECTORY: ${EXECUTION_DIR}/logs
       PROOF_ATTACHMENTS_DIRECTORY: ${PROOF_DIR}/attachments
+      PROOF_USERDATA_DIRECTORY: ${PROOF_DIR}/userdata
     ports:
       - "8200:8200"
     depends_on:
