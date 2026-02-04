@@ -42,7 +42,7 @@ class FileReader(BaseWrapper):
 
     async def init(self) -> None:
         logger.debug("initializing FileReader, Values given:")
-        self.file_path = os.path.join(self.workspace_directory, self.file_name)
+        self.file_path = os.path.join(self.userdata_directory, self.file_name)
         logger.debug("file_name: " + str(self.file_path))
         logger.debug("inputs: " + str(self.inputs))
         logger.debug("outputs: " + str(self.outputs))
