@@ -1,3 +1,5 @@
+x-attachments-path: &attachments-path "${PROOF_DIR}/attachments"
+
 services:
 
   proof-keycloak:
@@ -76,6 +78,7 @@ services:
       SPRING_DATA_REDIS_HOST: "proof-redis"
       SPRING_RABBITMQ_HOST: "proof-rabbitmq"
       WEBSOCKET_BROKER_RELAYHOST: "proof-rabbitmq"
+      FILE_STORAGE_ROOT: *attachments-path
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
     ports:
@@ -86,7 +89,7 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.0
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.1
     restart: no
     platform: linux/amd64
     volumes:
@@ -106,8 +109,8 @@ services:
       PROOF_ORCHESTRATION_LOGLEVEL: ${PROOF_ORCHESTRATION_LOG_LEVEL}
       PROOF_WORKER_LOGLEVEL: ${PROOF_WORKER_LOG_LEVEL}
       PROOF_WORKSPACE_DIRECTORY: ${PROOF_DIR}
-      PROOF_WORKER_LOGGING_DIRECTORY: ${EXECUTION_DIR}/logs
-      PROOF_ATTACHMENTS_DIRECTORY: ${PROOF_DIR}/attachments
+      PROOF_WORKER_LOGGING_DIRECTORY: ${PROOF_DIR}/executions/%EXEC_ID/logs
+      PROOF_ATTACHMENTS_DIRECTORY: *attachments-path
       PROOF_USERDATA_DIRECTORY: ${PROOF_DIR}/userdata
     ports:
       - "8200:8200"
