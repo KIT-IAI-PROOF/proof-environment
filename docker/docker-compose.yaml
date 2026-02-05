@@ -121,7 +121,7 @@ services:
 
   proof-frontend:
     container_name: proof-frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.70
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.71
     restart: no
     platform: linux/amd64
     networks:
