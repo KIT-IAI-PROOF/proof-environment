@@ -84,12 +84,21 @@ class FileWriter(BaseWrapper):
 
     async def finalize(self) -> None:
         logger.debug("executing the finalize method")
-        if self.file is not None:
+        if self.file is not None and not self.file.closed:
             self.file.close()
             self.file = None
         else:
             raise ValueError("ERROR closing file '" + self.file_path + "':  File is not opened yet")
         await super(FileWriter, self).finalize()
+
+    async def shut_down(self, status=None, error_text="") -> None:
+        logger.debug("executing the shut_down method")
+        # Ensure that the file is being closed is if is still open
+        if self.file is not None and not self.file.closed:
+            self.file.close()
+            self.file = None
+        await super(FileWriter, self).shut_down()
+
 
 if __name__ == '__main__':
     try:

@@ -95,7 +95,7 @@ class FileReader(BaseWrapper):
 
     async def finalize(self) -> None:
         logger.debug("finalize() -> FileReader executed the finalize method")
-        if self.file is not None:
+        if self.file is not None and not self.file.closed:
             self.file.close()
             self.file = None
         else:

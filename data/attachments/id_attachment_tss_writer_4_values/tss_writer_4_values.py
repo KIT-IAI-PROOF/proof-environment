@@ -23,9 +23,8 @@ from typing import Dict
 
 options, arguments = cliargparser.parse_known_args()
 
-log_file_name = "proof_TSSWriter4Values_" + str(options.local_block_id) + ".log"
-
 # Use of the custom PROOF logger. Each file has its own logger.
+log_file_name = "proof_TSSWriter4Values_" + str(options.local_block_id) + ".log"
 logger = Logger('TSSWriter4ValuesLogger', handlers = [HandlerType.FILE], logging_dir=options.loggingDir, log_file_name = log_file_name, log_level=options.logLevel).get_logger()
 
 class TSSWriter4Values(BaseWrapper):
@@ -42,8 +41,6 @@ class TSSWriter4Values(BaseWrapper):
         self.tags=None              # tags for the TSS data
         self.resetInput = None      # whether to reset the input values after each step
         self._reset_input = True    # local variable, because self.resetInput is provided as a string
-        self.waitForSync = None     # whether to wait for a SYNC before writing the data
-        self._wait_for_sync = True  # local variable, because self.waitForSync is provided as a string
         self.writeCP = None         # whether to write the communication point to the TSS data
         self._write_cp = False      # local variable, because self.writeCP is provided as a string
 
@@ -74,7 +71,6 @@ class TSSWriter4Values(BaseWrapper):
 
         try:
             self._reset_input = self.resetInput.lower() == "true" if self.resetInput is not None else False
-            self._wait_for_sync = self.waitForSync.lower() == "true" if self.waitForSync is not None else False
             self._write_cp = self.writeCP.lower() == "true" if self.writeCP is not None else False
 
             if self.timeUnit is not None:
@@ -95,8 +91,7 @@ class TSSWriter4Values(BaseWrapper):
     async def step(self, status=None, error_text="") -> None:
         logger.debug("processing STEP()\n")
 
-        if self._wait_for_sync:
-            await self.push_value()
+        await self.push_value()
         # not necessary:   nothing happens there with respect to TSSWriter (no outputs)
         #await super(TSSWriter4Values, self).step()
 
@@ -182,18 +177,6 @@ class TSSWriter4Values(BaseWrapper):
         logger.debug("push_value: value sent, now sending notify for CP: " + str(self.communication_point))
         await self.send_notify(SimulationPhase.EXECUTE, block_status=BlockStatus.EXECUTION_STEP_FINISHED, error_text="")
         logger.debug("push_value: NOTIFY Message sent ...")
-
-
-    async def set_variables(self, variables: Dict, phase: SimulationPhase) -> None:
-        #print('ValueAdder::set_vars: {},      _reset_input: {}'.format(variables,self._reset_input))
-        for key, value in variables.items():
-            setattr(self, key, value)
-
-        if self._wait_for_sync:
-            logger.debug( "waiting for SYNC, then sending value, CP: "  + str(self.communication_point))
-        else:
-            logger.debug( "Do not wait for a SYNC, sending value and notify at once ..." )
-            await self.push_value()
 
     async def set_time_factor(self):
         match self.timeUnit:

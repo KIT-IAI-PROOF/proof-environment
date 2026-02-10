@@ -15,13 +15,13 @@ from proofcore.util.proofLogging import Logger, HandlerType
 
 options, arguments = cliargparser.parse_known_args()
 
-__log_file_name = "proof_String2FloatConverter_" + options.local_block_id + ".log"
 # Local use of the custom PROOF logger. Each file can have its own logger.
-logger = Logger('Float2String', handlers = [HandlerType.FILE], logging_dir=options.loggingDir, log_file_name = __log_file_name, log_level=options.logLevel).get_logger()
+__log_file_name = "proof_String2FloatConverter_" + options.local_block_id + ".log"
+logger = Logger('String2Float', handlers = [HandlerType.FILE], logging_dir=options.loggingDir, log_file_name = __log_file_name, log_level=options.logLevel).get_logger()
 
 class String2FloatConverter(BaseWrapper):
     """
-    A simple block that converts a float input to a string output.
+    A simple block that converts a string input to a float output.
     It does not wait for a SYNC, but processes the input immediately.
     """
     def __init__(self, opt=options) -> None:
@@ -39,50 +39,16 @@ class String2FloatConverter(BaseWrapper):
         logger.debug("__init__() -> initializing String2FloatConverter")
         super(String2FloatConverter, self).__init__(bwoptions=opt)
 
-    async def init(self) -> None:
-        # Model logic
-        logger.debug("processing init()")
-        try:
-            logger.debug("starting an init process")
-            # Here you can initialize your model, e.g. read files, set up connections, etc.
-        except Exception as e:
-            logger.debug("handling an exception")
-            await super(String2FloatConverter, self).init(BlockStatus.ERROR_INIT, str(e))
-        else:
-            logger.debug("executing super().init()")
-            await super(String2FloatConverter, self).init(BlockStatus.INITIALIZED)
-
     async def step(self) -> None:
-        # do nothing because all work is already done in the set_variables() method
-        # also do not call the super().step() method
-        pass
 
-
-    async def finalize(self) -> None:
-        # Model logic
-        logger.debug("processing finalize()")
-        try:
-            logger.debug("starting a finalize process")
-        except Exception as e:
-            logger.debug("handling an exception")
-            await super(String2FloatConverter, self).finalize(BlockStatus.ERROR_FINALIZE, str(e))
-        else:
-            logger.debug("executing super().finalize()")
-            await super(String2FloatConverter, self).finalize(BlockStatus.FINALIZED)
-
-    async def set_variables(self, variables: Dict, phase: SimulationPhase) -> None:
-        for key, value in variables.items():
-            setattr(self, key, value)
-
-        logger.debug("processing set_variables(), variables: " + str(variables))
+        logger.debug(f"transforming string '{self.string_input}' to float...")
 
         try:
-            if phase != SimulationPhase.INIT:
-                self.float_output = float(self.string_input) if self.string_input is not None and self.string_input else 0.0
-                await super(String2FloatConverter, self).step(BlockStatus.EXECUTION_STEP_FINISHED)
+            self.float_output = float(self.string_input) if self.string_input is not None and self.string_input else 0.0
+            logger.debug(f"Resulting float is {self.float_output}.")
+            await super(String2FloatConverter, self).step(BlockStatus.EXECUTION_STEP_FINISHED)
         except (ValueError, TypeError) as e:
             await self.send_notify(SimulationPhase.EXECUTE, BlockStatus.ERROR_STEP, str(e))
-
 
 
 if __name__ == '__main__':
