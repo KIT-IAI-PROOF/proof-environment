@@ -67,7 +67,7 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.4.8
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.4.9
     restart: no
     platform: linux/amd64
     volumes:
@@ -120,10 +120,9 @@ services:
       proof-rabbitmq:
         condition: service_healthy
 
-
   proof-frontend:
     container_name: proof-frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.76
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.78
     restart: no
     platform: linux/amd64
     networks:
