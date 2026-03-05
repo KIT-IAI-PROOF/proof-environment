@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run All" type="docker-deploy" factoryName="docker-compose.yml" server-name="PROOF">
+  <configuration default="false" name="Run Dev" type="docker-deploy" factoryName="docker-compose.yml" server-name="PROOF">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="composeProjectName" value="proof" />
@@ -10,7 +10,7 @@
           </list>
         </option>
         <option name="removeVolumesOnComposeDown" value="true" />
-        <option name="sourceFilePath" value="docker/docker-compose.yaml" />
+        <option name="sourceFilePath" value="docker/docker-compose.dev.yaml" />
       </settings>
     </deployment>
     <method v="2" />

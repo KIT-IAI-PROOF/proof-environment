@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Development" type="docker-deploy" factoryName="docker-compose.yml" server-name="PROOF">
+  <configuration default="false" name="Run Prod" type="docker-deploy" factoryName="docker-compose.yml" server-name="PROOF">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="composeProjectName" value="proof" />
@@ -10,15 +10,7 @@
           </list>
         </option>
         <option name="removeVolumesOnComposeDown" value="true" />
-        <option name="services">
-          <list>
-            <option value="proof-redis" />
-            <option value="proof-rabbitmq" />
-            <option value="proof-postgres" />
-            <option value="proof-keycloak" />
-          </list>
-        </option>
-        <option name="sourceFilePath" value="docker/docker-compose.yaml" />
+        <option name="sourceFilePath" value="docker/docker-compose.prod.yaml" />
       </settings>
     </deployment>
     <method v="2" />
