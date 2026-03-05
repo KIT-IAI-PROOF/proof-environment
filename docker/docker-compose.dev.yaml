@@ -87,9 +87,10 @@ services:
         condition: service_healthy
 
   proof-orchestrator:
+    pull_policy: always
+    restart: always
     container_name: proof-orchestrator
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.6
-    restart: always
     platform: linux/amd64
     volumes:
       - "proof-files:${PROOF_DIR}:rw"
@@ -118,9 +119,10 @@ services:
         condition: service_healthy
 
   proof-frontend:
+    pull_policy: always
+    restart: always
     container_name: proof-frontend
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.79
-    restart: always
     platform: linux/amd64
     networks:
       - proof
