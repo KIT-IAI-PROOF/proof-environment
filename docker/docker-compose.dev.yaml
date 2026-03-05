@@ -3,7 +3,7 @@ services:
   proof-keycloak:
     container_name: proof-keycloak
     image: quay.io/keycloak/keycloak:26.3.1
-    restart: no
+    restart: always
     networks:
       - proof
     volumes:
@@ -31,7 +31,7 @@ services:
   proof-postgres:
     container_name: proof-postgres
     image: docker.io/library/postgres:17.6-alpine
-    restart: no
+    restart: always
     networks:
       - proof
     environment:
@@ -55,16 +55,17 @@ services:
   proof-redis:
     container_name: proof-redis
     image: docker.io/library/redis:8.2
-    restart: no
+    restart: always
     networks:
       - proof
     ports:
       - "6379:6379"
 
   proof-config-manager:
+    pull_policy: always
+    restart: always
     container_name: proof-config-manager
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.4.12-dev
-    restart: no
     platform: linux/amd64
     volumes:
       - "proof-files:${PROOF_DIR}:rw"
@@ -88,7 +89,7 @@ services:
   proof-orchestrator:
     container_name: proof-orchestrator
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.6
-    restart: no
+    restart: always
     platform: linux/amd64
     volumes:
       - "proof-files:${PROOF_DIR}:rw"
@@ -119,7 +120,7 @@ services:
   proof-frontend:
     container_name: proof-frontend
     image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.79
-    restart: no
+    restart: always
     platform: linux/amd64
     networks:
       - proof
@@ -129,7 +130,7 @@ services:
   proof-rabbitmq:
     image: docker.io/library/rabbitmq:4-management-alpine
     container_name: proof-rabbitmq
-    restart: no
+    restart: always
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
