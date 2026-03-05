@@ -65,7 +65,7 @@ services:
     pull_policy: always
     restart: always
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.4.12-dev
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.4.13-dev
     platform: linux/amd64
     volumes:
       - "proof-files:${PROOF_DIR}:rw"
