@@ -80,7 +80,7 @@ services:
       SPRING_DATA_REDIS_HOST: "proof-redis"
       SPRING_RABBITMQ_HOST: "proof-rabbitmq"
       WEBSOCKET_BROKER_RELAYHOST: "proof-rabbitmq"
-      FILE_STORAGE_ROOT: *attachments-path
+      FILE_STORAGE_ROOT: ${PROOF_DIR}
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
       SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
     ports:
