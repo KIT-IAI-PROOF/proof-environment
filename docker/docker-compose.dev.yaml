@@ -59,7 +59,7 @@ services:
   proof-redis:
     container_name: proof-redis
     image: docker.io/library/redis:8.2
-    restart: always
+    restart: no
     networks:
       - proof
     ports:
@@ -133,7 +133,7 @@ services:
   proof-rabbitmq:
     image: docker.io/library/rabbitmq:4-management-alpine
     container_name: proof-rabbitmq
-    restart: always
+    restart: no
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
