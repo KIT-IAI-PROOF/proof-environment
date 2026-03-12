@@ -19,7 +19,6 @@ import os
 
 options, arguments = cliargparser.parse_known_args()
 
-
 # Use of the custom PROOF logger. Each file has its own logger.
 log_file_name = "proof_FileWriterLogger_" + str(options.local_block_id) + ".log"
 logger = Logger('FileWriterLogger', handlers = [HandlerType.FILE], logging_dir=options.loggingDir, log_file_name = log_file_name, log_level=options.logLevel).get_logger()
@@ -34,10 +33,8 @@ class FileWriter(BaseWrapper):
         self.file_path = None      # local path to the file to be written to, set in init()
         self.file = None           # file object, opened in init()
         self.mode = 'w'            # write mode, can be 'w' for write or 'a' for append, set in init()
-        self.waitForSync = None    # wait for a SYNC before writing the data, can be set in the PROOF Block/Template
-        self._wait_for_sync = True # internal flag to wait for a SYNC, default is True
         self.additionalCRLF = None # if True, an additional Carrage Return and Line Feed will be printed. This can be important when values without CRLF should be written
-        self._additional_clrf = False # internal flag for given worker value
+        self._additional_crlf = False # internal flag for given worker value
         self.data = ""             # data to be written to the file, set in step()
         #logger.debug("__init__() -> FileWriter initialized \n")
 
@@ -45,16 +42,20 @@ class FileWriter(BaseWrapper):
 
     async def init(self) -> None:
         logger.debug("initializing FileWriter, Values given:")
-        self.file_path = os.path.join(self.workspace_directory, self.file_name)
+        self.file_path = os.path.join(self.userdata_directory, self.file_name)
+        parent_path = os.path.dirname(self.file_path)
+        if not os.path.exists(parent_path):
+            logger.info(f"Parent path '{parent_path}' does not exist, creating folders")
+            os.makedirs(name=parent_path, exist_ok=True)
         logger.debug("filename: " + str(self.file_path))
         logger.debug("inputs: " + str(self.inputs))
         logger.debug("outputs: " + str(self.outputs))
 
-        self._wait_for_sync = self.waitForSync.lower() == "true" if self.waitForSync is not None else False
-        self._additional_clrf = self.additionalCRLF.lower() == "true" if self.additionalCRLF is not None else False
-        logger.debug("waitForSync: " + str(self._wait_for_sync) + ",  additionalCRLF: " + str(self._additional_clrf) )
+        self._additional_crlf = self.additionalCRLF.lower() == "true" if self.additionalCRLF is not None else False
+        logger.debug("additionalCRLF: " + str(self._additional_crlf) )
 
         try:
+            logger.debug(f"Opening file {os.path.abspath(self.file_path)}")
             self.file = open(self.file_path, self.mode)
             await super(FileWriter, self).init()
         except Exception as e:
@@ -69,7 +70,7 @@ class FileWriter(BaseWrapper):
         try:
             if self.data is not None:
                 self.file.write(self.data)
-                if self._additional_clrf:
+                if self._additional_crlf:
                     self.file.write("\n")
                 if self.mode == 'a':
                     logger.debug(f"processing STEP; data appended to file '{self.data}'")
@@ -77,36 +78,32 @@ class FileWriter(BaseWrapper):
                     logger.debug(f"processing STEP; data written to file '{self.data}'")
                 await super(FileWriter, self).send_notify(SimulationPhase.EXECUTE, BlockStatus.EXECUTION_STEP_FINISHED, error_text="")
         except Exception as e:
-            error_txt = "Error writing to file '" + self.file_path + "' -> " + str(e) + "\n" + str(traceback.format_exc())
+            error_txt = "Error writing to file '" + str(self.file_path) + "' -> " + str(e) + "\n" + str(traceback.format_exc())
             logger.error(error_txt)
             await self.send_notify(SimulationPhase.EXECUTE, BlockStatus.ERROR_INIT, error_txt)
 
     async def finalize(self) -> None:
         logger.debug("executing the finalize method")
-        if self.file is not None:
+        if self.file is not None and not self.file.closed:
             self.file.close()
             self.file = None
         else:
             raise ValueError("ERROR closing file '" + self.file_path + "':  File is not opened yet")
         await super(FileWriter, self).finalize()
 
-    # overwriting the following BaseWrapper function to process wait_for_sync and
-    # send the data immediately if not waiting for a SYNC
-    async def set_variables(self, variables: Dict, phase: SimulationPhase) -> None:
-        for key, value in variables.items():
-            setattr(self, key, value)
-
-        if self._wait_for_sync:
-            logger.debug( "waiting for SYNC, then sending value, CP: "  + str(self.communication_point))
-        else:
-            logger.debug( "Do not wait for a SYNC, sending value and notify at once ..." )
-            await self.step()
+    async def shut_down(self, status=None, error_text="") -> None:
+        logger.debug("executing the shut_down method")
+        # Ensure that the file is being closed is if is still open
+        if self.file is not None and not self.file.closed:
+            self.file.close()
+            self.file = None
+        await super(FileWriter, self).shut_down()
 
 
 if __name__ == '__main__':
     try:
-        asyncio.run(main(wrapper=FileWriter()))
         logger.debug("The main method of the file_line_provider.py gets executed!")
+        asyncio.run(main(wrapper=FileWriter()))
     except KeyboardInterrupt:
         exit(0)
 
