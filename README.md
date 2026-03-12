@@ -25,7 +25,7 @@ Afterwards, start PROOF using the startPROOF script in the docker folder:
 ```
 ./startPROOF
 ```
-**Windows:** Ensure to have the **Docker Desktop App** running.
+**Windows:** Ensure to have the **Docker Desktop App** running. Start PROOF using the startPROOF.bat file.
 
 PROOF will take a few moments to be started properly. Thus, you can access the PROOF graphical user interface by opening a new browser window/tab and type the following in the URL address bar:
 ```
@@ -36,13 +36,13 @@ Due to caching behaviour in some browsers, we **strongly recommend** opening the
 To access the workflow creation editor, the credentials to be used are *test/test*.
 
 ## Data exchange
-Data exchange with PROOF currently works via the `proof-environment/data` folder. All files laying in this folder can be accessed e.g. in the *FileLineProvider* block to be read from.
+Data exchange with PROOF currently works via the `proof-environment/data/userdata` folder. All files laying in this folder can be accessed e.g. in the *FileReader* block to be read from.
 
 ## Test your installation
-To test your installation, you can use the workflow *FileReader2FileWriter*. It contains two blocks: the *FileReader* which reads a file given as input parameter and provides the next line each step and the *FileWriter* which receives data and appends it to the file which name is given as an input parameter.
+To test your installation, you can use the workflow *FileReader-to-FileWriter*. It contains two blocks: the *FileReader* which reads a file given as input parameter and provides the next line each step and the *FileWriter* which receives data and appends it to the file which name is given as an input parameter.
 
 When you see in the Orchestrator logs that all blocks are shutdown, can can check the contents of the output file (e.g. *out.txt*) which should be the same as the *input.txt* file.
 ```
-cd proof-environment/data
+cd proof-environment/data/userdata
 cat out.txt
 ```
