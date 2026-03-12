@@ -1,1 +1,11 @@
-docker compose --env-file proof.env up
+echo "=== PROOF Service Versions ==="
+docker compose -f docker-compose.prod.yaml --env-file proof.env config \
+  --format json | python3 -c "
+import json,sys
+for name,svc in sorted(json.load(sys.stdin)['services'].items()):
+    img=svc.get('image','?')
+    tag=img.rsplit(':',1)[-1] if ':' in img else 'latest'
+    print(f'  {name:25s} {tag}')
+"
+echo "==============================="
+docker compose -f docker-compose.prod.yaml --env-file proof.env up "$@"

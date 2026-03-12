@@ -7,7 +7,7 @@ services:
   proof-keycloak:
     container_name: proof-keycloak
     image: quay.io/keycloak/keycloak:26.3.1
-    restart: no
+    restart: always
     networks:
       - proof
     volumes:
@@ -35,7 +35,7 @@ services:
   proof-postgres:
     container_name: proof-postgres
     image: docker.io/library/postgres:17.6-alpine
-    restart: no
+    restart: always
     networks:
       - proof
     environment:
@@ -59,7 +59,7 @@ services:
   proof-redis:
     container_name: proof-redis
     image: docker.io/library/redis:8.2
-    restart: no
+    restart: always
     networks:
       - proof
     ports:
@@ -67,15 +67,15 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.4.10
-    restart: no
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.4.14
+    restart: always
     platform: linux/amd64
     volumes:
       - "proof-files:${PROOF_DIR}:rw"
     networks:
       - proof
     environment:
-      SPRING_PROFILES_ACTIVE: "dev"
+      SPRING_PROFILES_ACTIVE: "prod"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://proof-postgres:5432/proof"
       SPRING_DATA_REDIS_HOST: "proof-redis"
       SPRING_RABBITMQ_HOST: "proof-rabbitmq"
@@ -91,8 +91,8 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.6
-    restart: no
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.9
+    restart: always
     platform: linux/amd64
     volumes:
       - "proof-files:${PROOF_DIR}:rw"
@@ -100,7 +100,7 @@ services:
     networks:
       - proof
     environment:
-      SPRING_PROFILES_ACTIVE: "dev"
+      SPRING_PROFILES_ACTIVE: "prod"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://proof-postgres:5432/proof"
       SPRING_DATA_REDIS_HOST: "proof-redis"
       SPRING_RABBITMQ_HOST: "proof-rabbitmq"
@@ -122,8 +122,8 @@ services:
 
   proof-frontend:
     container_name: proof-frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.0.79
-    restart: no
+    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.2.1
+    restart: always
     platform: linux/amd64
     networks:
       - proof
@@ -133,7 +133,7 @@ services:
   proof-rabbitmq:
     image: docker.io/library/rabbitmq:4-management-alpine
     container_name: proof-rabbitmq
-    restart: no
+    restart: always
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
