@@ -16,6 +16,12 @@ Follow these steps to start and run PROOF.
 ## Get proof-environment
 To install PROOF, move to the repository [proof-environment](https://github.com/KIT-IAI-PROOF/proof-environment) and clone the repository to your local file system. We recommend creating a PROOF directory for this purpose. To clone the repository using a cli, make sure you have **git** installed on your local machine. Alternatively, you can download the zip-file of proof-environment.
 
+## Download the worker image (optional)
+Starting with version 1.1.0, PROOF automatically downloads missing Docker images when needed. However, you can optionally download the [proof-worker-python image](https://github.com/orgs/KIT-IAI-PROOF/packages/container/package/proof-worker-python) in advance to speed up the first execution:
+```
+docker pull ghcr.io/kit-iai-proof/proof-worker-python:1.1.0
+```
+
 ## Start PROOF
 To start PROOF, navigate to the following folder within proof-environment:
 ```
@@ -36,12 +42,20 @@ Due to caching behaviour in some browsers, we **strongly recommend** opening the
 To access the workflow creation editor, the credentials to be used are *test/test*.
 
 ## Data exchange
-Data exchange with PROOF currently works via the `proof-environment/data/userdata` folder. All files laying in this folder can be accessed e.g. in the *FileReader* block to be read from.
+Data exchange with PROOF works via the `proof-environment/data` folder structure:
+
+- **`userdata/`**: Directory for user-managed files that can be accessed by workflow blocks (e.g., *FileReader* block)
+- **`attachments/`**: Directory for workflow-specific attachments and configuration files
+  - Uploaded attachment files are stored here, organized by their unique attachment ID.
+- **`executions/`**: Directory for execution-specific data and logs
+  - Execution logs are stored in subdirectories named by execution ID as specified in the docker-compose file.
+
+Files placed in the `userdata` folder can be referenced in your workflows for reading and writing operations.
 
 ## Test your installation
 To test your installation, you can use the workflow *FileReader-to-FileWriter*. It contains two blocks: the *FileReader* which reads a file given as input parameter and provides the next line each step and the *FileWriter* which receives data and appends it to the file which name is given as an input parameter.
 
-When you see in the Orchestrator logs that all blocks are shutdown, can can check the contents of the output file (e.g. *out.txt*) which should be the same as the *input.txt* file.
+When you see that the execution has the status SHUT_DOWN, you can check the contents of the output file (e.g. *out.txt*) which should be the same as the input file for this demo workflow. This can be done via console:
 ```
 cd proof-environment/data/userdata
 cat out.txt
