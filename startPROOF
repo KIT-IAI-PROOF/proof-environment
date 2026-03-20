@@ -1,4 +1,5 @@
 echo "=== PROOF Service Versions ==="
+cd docker
 
 # Detect which Python command is available
 PYTHON_CMD=""

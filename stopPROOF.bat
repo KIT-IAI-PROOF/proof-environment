@@ -6,4 +6,4 @@ REM Get the directory where this batch file is located
 set SCRIPT_DIR=%~dp0
 
 REM Convert Windows path to WSL path and run the bash script
-wsl cd "`wslpath '%SCRIPT_DIR%'`" ^&^& ./stopPROOF %*
+wsl -d Ubuntu cd "`wslpath '%SCRIPT_DIR%'`" ^&^& ./stopPROOF %*
