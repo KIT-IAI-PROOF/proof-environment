@@ -23,11 +23,7 @@ docker pull ghcr.io/kit-iai-proof/proof-worker-python:1.1.0
 ```
 
 ## Start PROOF
-To start PROOF, navigate to the following folder within proof-environment:
-```
-cd proof-environment/docker
-```
-Afterwards, start PROOF using the startPROOF script in the docker folder:
+Start PROOF using the startPROOF script in the docker folder:
 ```
 ./startPROOF
 ```
