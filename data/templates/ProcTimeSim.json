@@ -36,7 +36,7 @@
       "communicationType": "STEPBASED"
     }
   ],
-  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.0.0",
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
   "syncStrategy": "INSTANT",
   "communicationParadigm": "STEPBASED",
   "shutdownRelevant": "false",

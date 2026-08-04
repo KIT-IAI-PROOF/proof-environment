@@ -39,10 +39,11 @@
       "description": "Indoor Temperature of Block 3_Building",
       "type": "FLOAT",
       "phase": "EXECUTE",
+      "unit": "°C",
       "modelVarName": "indoor_temp",
       "communicationType": "STEPBASED"
     }],
-  "containerImage": "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:latest",
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
   "syncStrategy": "WAIT_FOR_SYNC",
   "communicationParadigm": "STEPBASED",
   "shutdownRelevant": "false",
