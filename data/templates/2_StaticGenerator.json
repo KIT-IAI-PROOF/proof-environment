@@ -19,6 +19,7 @@
       "type": "FLOAT",
       "phase": "EXECUTE",
       "required": true,
+      "unit": "°C",
       "modelVarName": "outdoor_temp",
       "communicationType": "STEPBASED"
     }

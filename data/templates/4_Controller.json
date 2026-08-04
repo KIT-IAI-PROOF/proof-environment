@@ -10,6 +10,7 @@
       "type": "FLOAT",
       "phase": "EXECUTE",
       "required": true,
+      "unit": "°C",
       "modelVarName": "indoor_temp",
       "communicationType": "STEPBASED"
     },

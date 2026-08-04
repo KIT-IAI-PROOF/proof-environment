@@ -18,6 +18,7 @@
       "description": "Outdoor temperature of Block 1_DataFeeder",
       "type": "FLOAT",
       "phase": "EXECUTE",
+      "unit": "°C",
       "modelVarName": "outdoor_temp",
       "communicationType": "STEPBASED"
     },

@@ -10,6 +10,7 @@
     "type": "FLOAT",
     "phase": "INIT",
     "required": true,
+    "unit": "°C",
     "modelVarName": "indoor_temp",
     "communicationType": "STEPBASED_STATIC"
   },
@@ -28,6 +29,7 @@
     "type": "FLOAT",
     "phase": "EXECUTE",
     "required": true,
+    "unit": "°C",
     "modelVarName": "outdoor_temp",
     "communicationType": "STEPBASED"
   }
