@@ -1,0 +1,63 @@
+{
+  "id": "id_template_4_Controller",
+  "name": "4. Controller",
+  "description": "Simple Building Model: Controller",
+  "blockType": "BASE",
+  "type": "block",
+  "inputs": [{
+      "label": "indoor_temp",
+      "description": "Indoor Temperature of Block 4_Controller",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": true,
+      "modelVarName": "indoor_temp",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "price",
+      "description": "Price of Block 4_Controller",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": true,
+      "modelVarName": "price",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "pv_power",
+      "description": "Solar power of Block 4_Controller",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": true,
+      "modelVarName": "pv_power",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "outputs": [{
+      "label": "p_hvac",
+      "description": "HVAC power of Block 4_Controller",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "p_hvac",
+      "communicationType": "STEPBASED"
+    }],
+  "containerImage": "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:latest",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_4_Controller",
+    "label": "prog_4_Controller",
+    "description": "Simple Building Model: Controller",
+    "tag": "prog_4_Controller",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_4_Controller",
+    "attachments": [
+      {
+        "id": "id_attachment_4_Controller",
+        "label": "attachment_4_Controller",
+        "path": "4_Controller.py",
+        "description": "Simple Building Model: Controller"
+      }
+    ]
+  }
+}

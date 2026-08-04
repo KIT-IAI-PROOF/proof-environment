@@ -1,0 +1,52 @@
+{
+  "id": "id_template_1_DataFeeder",
+  "name": "1. DataFeeder",
+  "description": "Simple Building Model: DataFeeder",
+  "blockType": "BASE",
+  "type": "block",
+  "inputs": [],
+  "outputs": [{
+      "label": "irradiance",
+      "description": "irradiance of Block 1_DataFeeder",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "irradiance",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "outdoor_temp",
+      "description": "Outdoor temperature of Block 1_DataFeeder",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "outdoor_temp",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "price",
+      "description": "Price of Block 1_DataFeeder",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "price",
+      "communicationType": "STEPBASED"
+    }],
+  "containerImage": "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:latest",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "true",
+  "program": {
+    "id": "id_prog_1_DataFeeder",
+    "label": "prog_1_DataFeeder",
+    "description": "Simple Building Model: DataFeeder",
+    "tag": "prog_1_DataFeeder",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_1_DataFeeder",
+    "attachments": [
+      {
+        "id": "id_attachment_1_DataFeeder",
+        "label": "attachment_1_DataFeeder",
+        "path": "1_DataFeeder.py",
+        "description": "Simple Building Model: DataFeeder"
+      }
+    ]
+  }
+}
