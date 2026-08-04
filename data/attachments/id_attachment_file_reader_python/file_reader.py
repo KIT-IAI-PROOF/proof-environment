@@ -42,8 +42,10 @@ class FileReader(BaseWrapper):
 
     async def init(self) -> None:
         logger.debug("initializing FileReader, Values given:")
+        logger.debug("file_name: " + str(self.file_name))
+        logger.debug("data-dir: " + str(self.userdata_directory))
         self.file_path = os.path.join(self.userdata_directory, self.file_name)
-        logger.debug("file_name: " + str(self.file_path))
+        logger.debug("file_name (path): " + str(self.file_path))
         logger.debug("inputs: " + str(self.inputs))
         logger.debug("outputs: " + str(self.outputs))
         logger.debug("ignore_first_line: " + str(self.ignore_first_line))
@@ -80,7 +82,7 @@ class FileReader(BaseWrapper):
                 eofReached = self.line == ''
                 if eofReached:
                     logger.info(f"processing STEP {self.currentStep}; end of file reached after {self.currentRow} rows -> EXECUTION FINISHED ")
-                    await super(FileReader, self).step(BlockStatus.EXECUTION_FINISHED)
+                    await self.send_notify(SimulationPhase.EXECUTE, BlockStatus.EXECUTION_FINISHED, "")
                     return
             else:
                 raise ValueError("Error reading file '" + self.file_path + "': file is not opened yet")

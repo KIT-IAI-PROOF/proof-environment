@@ -1,0 +1,157 @@
+{
+  "id": "id_template_tss_writer_4_values",
+  "name": "TSS writer 4 Vals",
+  "description": "Write up to 4 values to the Time Series Service",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#009000",
+  "inputs": [
+    {
+      "label": "tss_writer_url",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "tss_writer_url",
+      "required": true,
+      "defaultValue": "http://",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "URL of the TSS writer endpoint, e.g., http://localhost:8000/write"
+    },
+    {
+      "label": "tags",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "tags",
+      "required": true,
+      "defaultValue": "proof",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Comma-separated list of tags to associate with the time series data, e.g., 'proof,experiment1'"
+    },
+    {
+      "label": "valName_1",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "valName_1",
+      "required": false,
+      "defaultValue": "name_1",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Name of the first value to be written to TSS, e.g., 'temperature'"
+    },
+    {
+      "label": "valName_2",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "valName_2",
+      "required": false,
+      "defaultValue": "name_2",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Name of the second value to be written to TSS, e.g., 'pressure'"
+    },
+    {
+      "label": "valName_3",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "valName_3",
+      "required": false,
+      "defaultValue": "name_3",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Name of the third value to be written to TSS, e.g., 'humidity'"
+    },
+    {
+      "label": "valName_4",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "valName_4",
+      "required": false,
+      "defaultValue": "name_4",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Name of the fourth value to be written to TSS, e.g., 'wind_speed'"
+    },
+    {
+      "label": "timeUnit",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "timeUnit",
+      "required": false,
+      "defaultValue": "ms",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Time unit for the timestamp to be written to TSS, e.g., 's' for seconds, 'ms' for milliseconds. Default is ms"
+    },
+    {
+      "label": "resetInput",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "resetInput",
+      "required": false,
+      "defaultValue": "false",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Whether to reset the value inputs to 0.0 after each write to TSS (true/false)"
+    },
+    {
+      "label": "value_1",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "value_1",
+      "required": false,
+      "communicationType": "STEPBASED",
+      "description": "First value to be written to TSS at each SYNC, e.g., a temperature measurement. If resetInput is set to true, this value will be reset to 0.0 after each write to TSS."
+    },
+    {
+      "label": "value_2",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "value_2",
+      "required": false,
+      "communicationType": "STEPBASED",
+  "description": "Second value to be written to TSS at each SYNC, e.g., a pressure measurement. If resetInput is set to true, this value will be reset to 0.0 after each write to TSS."
+    },
+    {
+      "label": "value_3",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "value_3",
+      "required": false,
+      "communicationType": "STEPBASED",
+      "description": "Third value to be written to TSS at each SYNC, e.g., a humidity measurement. If resetInput is set to true, this value will be reset to 0.0 after each write to TSS."
+    },
+    {
+      "label": "value_4",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "value_4",
+      "required": false,
+      "communicationType": "STEPBASED",
+      "description": "Fourth value to be written to TSS at each SYNC, e.g., a wind speed measurement. If resetInput is set to true, this value will be reset to 0.0 after each write to TSS."
+    },
+    {
+      "label": "writeCP",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "writeCP",
+      "required": false,
+      "defaultValue": "false",
+      "communicationType": "STEPBASED_STATIC",
+      "description": "Control parameter to trigger whether the cp is written to TSS, too"
+    }
+  ],
+  "outputs": [],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.0.0",
+  "communicationParadigm": "STEPBASED",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_tss_writer_4_values",
+    "label": "prog_tss_writer_4_values",
+  "description": "post up to 4 values to the time series service TSS",
+    "tag": "tss",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_tss_writer_4_values",
+    "attachments": [
+      {
+        "id": "id_attachment_tss_writer_4_values",
+        "label": "attachment_tss_writer_4_values",
+        "path": "tss_writer_4_values.py",
+        "description": "write/post 4 values as time series data to the url of TSS"
+      }
+    ]
+  }
+}
