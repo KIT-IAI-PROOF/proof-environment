@@ -134,6 +134,7 @@ services:
       PROOF_WORKER_LOGGING_DIRECTORY: ${PROOF_DIR}/executions/%EXEC_ID/logs
       PROOF_ATTACHMENTS_DIRECTORY: *attachments-path
       PROOF_USERDATA_DIRECTORY: ${PROOF_DIR}/userdata
+      PROOF_VOLUME: proof-files
     ports:
       - "8200:8200"
     depends_on:
