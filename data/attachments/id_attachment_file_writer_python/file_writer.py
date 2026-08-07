@@ -35,7 +35,7 @@ class FileWriter(BaseWrapper):
         self.file = None           # file object, opened in init()
         self.mode = 'w'            # write mode, can be 'w' for write or 'a' for append, set in init()
         self.additionalCRLF = None # if True, an additional Carrage Return and Line Feed will be printed. This can be important when values without CRLF should be written
-        self.printCP = 'True'      # if True, the current CommunicationPoint will be printed, too
+        self.printCP = None        # if True, the current CommunicationPoint will be printed, too
         self.printTimestamp = None # if True, the current timestamp will be printed, too
         self._additional_crlf = False # internal flag for given worker value
         self._print_ts = False     # internal flag for given worker value
