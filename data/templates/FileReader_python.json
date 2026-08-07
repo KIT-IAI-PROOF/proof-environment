@@ -1,0 +1,70 @@
+{
+  "id": "id_template_file_reader_python",
+  "name": "File Reader - python",
+  "description": "provide the workflow with lines from a given file for each SYNC",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#009000",
+  "inputs": [
+    {
+      "label": "file_name",
+      "description": "Path to the input file to read lines from",
+      "type": "FILE_NAME",
+      "phase": "INIT",
+      "modelVarName": "file_name",
+      "required": true,
+      "defaultValue": "input.txt",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "num_steps",
+      "description": "Number of steps to perform reading one line from the input file. Set to -1 to read the entire file.",
+      "type": "INTEGER",
+      "phase": "INIT",
+      "modelVarName": "num_steps",
+      "required": false,
+      "defaultValue": "-1",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "ignore_first_line",
+      "description": "Whether to ignore the first line of the input file (e.g., header line)",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "ignore_first_line",
+      "required": false,
+      "defaultValue": "false",
+      "communicationType": "STEPBASED_STATIC"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "line",
+      "description": "Line read from the input file at each SYNC",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "line",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "communicationParadigm": "STEPBASED",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "shutdownRelevant": "true",
+  "program": {
+    "id": "id_prog_file_reader_python",
+    "label": "prog_file_reader_python",
+    "description": "provide the workflow with lines from a given file for each SYNC",
+    "tag": "fileReader",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_file_reader_python",
+    "attachments": [
+      {
+        "id": "id_attachment_file_reader_python",
+        "label": "attachment_file_reader_python",
+        "path": "file_reader.py",
+        "description": "provide the workflow with lines from a given file for each SYNC"
+      }
+    ]
+  }
+}

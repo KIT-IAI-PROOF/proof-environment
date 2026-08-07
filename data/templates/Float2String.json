@@ -1,0 +1,49 @@
+{
+  "id": "id_template_float_2_string",
+  "name": "Float2String",
+  "description": "float to string converter",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#37e142",
+  "inputs": [
+    {
+      "label": "in",
+      "description": "input as Float",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": false,
+      "modelVarName": "float_input",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "out",
+      "type": "STRING",
+      "description": "output as String",
+      "phase": "EXECUTE",
+      "modelVarName": "string_output",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "communicationParadigm": "STEPBASED",
+  "syncStrategy": "INSTANT",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_float_2_string",
+    "label": "prog_float_2_string",
+    "description": "convert a float input to a string output without waiting for sync",
+    "tag": "float2string",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_float_2_string",
+    "attachments": [
+      {
+        "id": "id_attachment_float_2_string",
+        "label": "attachment_float_2_string",
+        "path": "float_2_string_converter.py",
+        "description": "convert a float input to a string output without waiting for sync"
+      }
+    ]
+  }
+}

@@ -1,5 +1,53 @@
-echo "=== PROOF Service Versions ==="
+SCRIPT_PATH="$(realpath "$0")"
+
+print_help() {
+  echo "Usage: startPROOF [OPTIONS]"
+  echo "Starts PROOF services, prints image versions, then runs docker compose up."
+  echo ""
+  echo "Options:"
+  grep -E '^\s+-[^)]+\).*##' "$SCRIPT_PATH" \
+    | sed 's/^\s*//; s/|/, /g; s/).*##[[:space:]]*/\t/' \
+    | awk -F'\t' '{ printf "  %-20s %s\n", $1, $2 }'
+  echo ""
+  echo "--- docker compose up --help ---"
+  docker compose -f $COMPOSE_FILE --env-file proof.env up --help
+}
+
+
+# Extract PROOF version from proof-info.json (if available)
+echo "==============================="
+ENV_FILE="proof.env"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+if [ -f "$SCRIPT_DIR/proof-info.json" ]; then
+    # Extract PROOF_VERSION early for use in config commands
+    export PROOF_VERSION=$(grep -o '"proof-version"[[:space:]]*:[[:space:]]*"[^"]*"' "$SCRIPT_DIR/proof-info.json" | sed 's/.*"\([^"]*\)"$/\1/')
+    
+    # Create a temporary env file combining proof.env with PROOF_VERSION
+    TEMP_ENV_FILE=$(mktemp)
+    echo "PROOF_VERSION=$PROOF_VERSION" > "$TEMP_ENV_FILE"
+    cat docker/proof.env >> "$TEMP_ENV_FILE"
+    ENV_FILE=$TEMP_ENV_FILE
+    echo "     PROOF Version: $PROOF_VERSION     "
+fi
+echo "==============================="
+
+echo "PROOF Service Versions "
+
 cd docker
+
+COMPOSE_FILE="docker-compose.prod.yaml"
+DETACHED=true
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -D|--dev)  COMPOSE_FILE="docker-compose.dev.yaml"; shift ;; ## Use docker-compose.dev.yaml instead of prod
+    -f|--compose-file) COMPOSE_FILE="$2"; shift 2 ;;            ## Set custom docker compose file path (relative to docker/)
+    -l|--logging) DETACHED=false; shift ;;                      ## Show logs after starting services
+    -p|--port) PROOF_FRONTEND_PORT="$2"; shift 2 ;;             ## Override the frontend port (PROOF_FRONTEND_PORT)
+    -h|--help) print_help; exit 0 ;;                            ## Show this help message
+    *)  break ;;
+  esac
+done
 
 # Detect which Python command is available
 PYTHON_CMD=""
@@ -9,10 +57,13 @@ elif python --version &> /dev/null; then
     PYTHON_CMD="python"
 fi
 
+# Resolve effective frontend port (CLI override takes precedence over proof.env)
+EFFECTIVE_PORT="${PROOF_FRONTEND_PORT:-$(grep -E '^PROOF_FRONTEND_PORT=' proof.env | cut -d'=' -f2)}"
+
 # Try different methods to display versions
 if [ -n "$PYTHON_CMD" ]; then
     # Use Python if available
-    docker compose -f docker-compose.prod.yaml --env-file proof.env config \
+    docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" config \
       --format json | $PYTHON_CMD -c "
 import json,sys
 for name,svc in sorted(json.load(sys.stdin)['services'].items()):
@@ -22,12 +73,53 @@ for name,svc in sorted(json.load(sys.stdin)['services'].items()):
 "
 elif jq --version &> /dev/null; then
     # Use jq if available
-    docker compose -f docker-compose.prod.yaml --env-file proof.env config \
+    docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" config \
       --format json | jq -r '.services | to_entries | sort_by(.key) | .[] | "  \(.key | . + (" " * (25 - length))) \((.value.image // "?") | split(":")[-1] // "latest")"'
 else
     # Fallback: simple list without formatting
-    docker compose -f docker-compose.prod.yaml --env-file proof.env config --images | sort
+    docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" config --images | sort
 fi
 
 echo "==============================="
-docker compose -f docker-compose.prod.yaml --env-file proof.env up "$@"
+echo " PROOF Containers are being started now. This might take a while..."
+echo "==============================="
+
+DETACH_CMD=''  # default: detached
+if [ "$DETACHED" = true ]; then
+    DETACH_CMD='-d'
+fi
+if [ -n "$PROOF_FRONTEND_PORT" ]; then
+    export PROOF_FRONTEND_PORT
+fi
+
+# Handle import script execution based on detached vs logging mode
+if [ "$DETACHED" = false ]; then
+    # Logging mode (-l): Start import in background, then show logs in foreground
+    # This allows the import to run while displaying container logs
+    ./scripts/startup-import.sh &
+    IMPORT_PID=$!
+    
+    # Set up cleanup trap to stop import script when docker compose exits
+    trap "kill $IMPORT_PID 2>/dev/null; wait $IMPORT_PID 2>/dev/null" EXIT INT TERM
+    
+    # Start docker compose in foreground (shows logs)
+    docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" --profile import-templates up "$@"
+    
+    # Wait for import script to complete after docker compose exits
+    wait $IMPORT_PID 2>/dev/null || true
+else
+    # Detached mode (default or -d): Start services in background, then run import
+    docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" --profile import-templates up $DETACH_CMD "$@"
+    
+    # Import the templates and workflows after services are started
+    ./scripts/startup-import.sh
+fi
+
+echo "==============================="
+echo "PROOF Frontend is now available at http://localhost:${EFFECTIVE_PORT}"
+echo "==============================="
+
+# Cleanup
+if [ "$ENV_FILE" != "proof.env" ]; then
+    rm -f "$TEMP_ENV_FILE"
+fi

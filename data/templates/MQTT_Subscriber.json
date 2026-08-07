@@ -1,0 +1,141 @@
+{
+  "id": "id_template_MQTT_Subscriber",
+  "name": "MQTT Subscriber",
+  "description": "This module subscribes data from a mosquitto MQTT broker for PROOF.",
+  "blockType": "BASE",
+  "type": "block",
+  "inputs": [
+    {
+      "label": "hostname",
+      "description": "The host name",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": true,
+      "modelVarName": "hostname",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "port",
+      "description": "The port number",
+      "type": "INTEGER",
+      "phase": "INIT",
+      "required": true,
+      "modelVarName": "port",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "topic",
+      "description": "The topic to subscribe to",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": true,
+      "modelVarName": "topic",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "timeout",
+      "description": "The timeout in seconds for connecting to the broker",
+      "type": "INTEGER",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "timeout",
+      "defaultValue": "1800",
+      "unit": "seconds",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "expected_message_count",
+      "description": "The number of messages to wait for before proceeding",
+      "type": "INTEGER",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "expected_message_count",
+      "defaultValue": "1",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "client_id",
+      "description": "The client identifier",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "client_id",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "cafile_path",
+      "description": "Path to CA certificate file",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "cafile_path",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "certfile_path",
+      "description": "Path to client certificate file",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "certfile_path",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "keyfile_path",
+      "description": "Path to client key file",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "keyfile_path",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "username",
+      "description": "Username for broker authentication",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "username",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "password",
+      "description": "Password for broker authentication",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "password",
+      "communicationType": "STEPBASED_STATIC"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "received_messages",
+      "description": "The received MQTT messages",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "received_messages",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_MQTT_Subscriber",
+    "label": "prog_MQTT_Subscriber",
+    "description": "The program subscribing a mosquitto MQTT broker for PROOF.",
+    "tag": "prog_MQTT_Subscriber",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_MQTT_Subscriber",
+    "attachments": [
+      {
+        "id": "id_attachment_MQTT_Subscriber",
+        "label": "attachment_MQTT_Subscriber",
+        "path": "MQTT_Subscriber.py",
+        "description": "The attachment subscribing a mosquitto MQTT broker for PROOF"
+      }
+    ]
+  }
+}

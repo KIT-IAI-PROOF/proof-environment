@@ -1,0 +1,51 @@
+SCRIPT_PATH="$(realpath "$0")"
+
+# Extract PROOF version from proof-info.json (if available)
+ENV_FILE="proof.env"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+if [ -f "$SCRIPT_DIR/proof-info.json" ]; then
+    # Extract PROOF_VERSION early for use in config commands
+    export PROOF_VERSION=$(grep -o '"proof-version"[[:space:]]*:[[:space:]]*"[^"]*"' "$SCRIPT_DIR/proof-info.json" | sed 's/.*"\([^"]*\)"$/\1/')
+    
+    # Create a temporary env file combining proof.env with PROOF_VERSION
+    TEMP_ENV_FILE=$(mktemp)
+    echo "PROOF_VERSION=$PROOF_VERSION" > "$TEMP_ENV_FILE"
+    cat docker/proof.env >> "$TEMP_ENV_FILE"
+    ENV_FILE=$TEMP_ENV_FILE
+fi
+
+print_help() {
+  echo "Usage: controlPROOF [OPTIONS]"
+  echo ""
+  echo "Options:"
+  grep -E '^\s+-[^)]+\).*##' "$SCRIPT_PATH" \
+    | sed 's/^\s*//; s/|/, /g; s/).*##[[:space:]]*/\t/' \
+    | awk -F'\t' '{ printf "  %-20s %s\n", $1, $2 }'
+  echo ""
+  echo "--- docker compose $COMMAND --help ---"
+  docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" $COMMAND --help
+}
+
+cd docker
+
+COMMAND="stop"  # default
+COMPOSE_FILE="docker-compose.prod.yaml"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -s|--stop) COMMAND="stop";                          shift ;; ## Stop running containers (default)
+    -d|--down) COMMAND="down";                          shift ;; ## Stop and remove containers and networks
+    -l|--logs) COMMAND="logs";                          shift ;; ## View output from containers
+    -D|--dev)  COMPOSE_FILE="docker-compose.dev.yaml";  shift ;; ## Use docker-compose.dev.yaml instead of prod
+    -f|--compose-file) COMPOSE_FILE="$2"; shift 2 ;;            ## Set custom docker compose file path (relative to docker/)
+    -h|--help) print_help; exit 0 ;;                             ## Show this help message
+    *)  break ;;
+  esac
+done
+
+docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" $COMMAND "$@"
+
+# Cleanup
+if [ "$ENV_FILE" != "proof.env" ]; then
+    rm -f "$TEMP_ENV_FILE"
+fi

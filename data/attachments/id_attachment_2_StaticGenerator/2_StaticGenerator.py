@@ -24,6 +24,7 @@ class PVWrapper(BaseWrapper):
     def __init__(self, opt=options) -> None:
         self.irradiance = None
         self.outdoor_temp = None
+        #self.use_java = True
 
         self.pv_power = None
 
@@ -56,8 +57,8 @@ class PVWrapper(BaseWrapper):
         class_path_exists = class_path.exists()
         class_too_old = java_path.stat().st_mtime > class_path.stat().st_mtime if class_path_exists else True
         needs_compile = not class_path_exists
-        if class_path.exists() and class_too_old:
-            needs_compile = True
+        #if class_path.exists() and class_too_old:
+        #    needs_compile = True
 
         if needs_compile:
             logger.debug(f"Need to re-compile java (File exists: {class_path_exists}, class_too_old: {class_too_old}):\n{['javac', str(java_path)]}")
@@ -89,8 +90,16 @@ class PVWrapper(BaseWrapper):
             irradiance = self.irradiance
             temp = self.outdoor_temp
 
+            #if self.use_java:
             logger.debug(f"Calling java file with irradiance={irradiance}, temp={temp}, efficiency={self.efficiency}, area={self.area}")
             power_kw, loss = self._run_pv_java(irradiance, temp, self.efficiency, self.area)
+            # else:
+            #     # virtual Legacy
+            #     temp_coeff = 0.005
+            #     loss = (temp - 25.0) * temp_coeff
+            #     real_efficiency = self.efficiency * (1.0 - loss)
+            #     power_watts = irradiance * self.area * real_efficiency
+            #     power_kw = max(0.0, power_watts / 1000.0)
 
             self.pv_power = power_kw
 

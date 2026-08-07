@@ -1,0 +1,58 @@
+{
+  "id": "id_template_divider",
+  "name": "Divider",
+  "description": "Divider gives quotient of two parameters",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#37e142",
+  "inputs": [
+    {
+      "label": "first_input",
+      "description": "first float input",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": false,
+      "modelVarName": "first_input",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "second_input",
+      "description": "second float input",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": false,
+      "modelVarName": "second_input",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "quotient",
+      "type": "FLOAT",
+      "description": "quotient of two float inputs",
+      "phase": "EXECUTE",
+      "modelVarName": "quotient",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "communicationParadigm": "STEPBASED",
+  "syncStrategy": "INSTANT",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_divider",
+    "label": "prog_divider",
+    "description": "gives quotient of two parameters",
+    "tag": "divider",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_divider",
+    "attachments": [
+      {
+        "id": "id_attachment_divider",
+        "label": "attachment_divider",
+        "path": "divider.py",
+        "description": "give quotient of two parameters"
+      }
+    ]
+  }
+}

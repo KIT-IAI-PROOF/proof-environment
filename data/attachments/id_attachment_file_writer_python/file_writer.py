@@ -6,6 +6,7 @@ The data to be written is set in the `step()` method, and the file is closed in 
 import argparse
 import traceback
 import asyncio
+import datetime
 
 from proofcore.base import cliargparser
 from proofcore.models.SimulationPhase import SimulationPhase
@@ -34,7 +35,12 @@ class FileWriter(BaseWrapper):
         self.file = None           # file object, opened in init()
         self.mode = 'w'            # write mode, can be 'w' for write or 'a' for append, set in init()
         self.additionalCRLF = None # if True, an additional Carrage Return and Line Feed will be printed. This can be important when values without CRLF should be written
+        self.printCP = None        # if True, the current CommunicationPoint will be printed, too
+        self.printTimestamp = None # if True, the current timestamp will be printed, too
         self._additional_crlf = False # internal flag for given worker value
+        self._print_ts = False     # internal flag for given worker value
+        self._print_cp = False     # internal flag for given worker value
+
         self.data = ""             # data to be written to the file, set in step()
         #logger.debug("__init__() -> FileWriter initialized \n")
 
@@ -52,14 +58,18 @@ class FileWriter(BaseWrapper):
         logger.debug("outputs: " + str(self.outputs))
 
         self._additional_crlf = self.additionalCRLF.lower() == "true" if self.additionalCRLF is not None else False
+        self._print_cp = self.printCP.lower() == "true" if self.printCP is not None else False
+        self._print_ts = self.printTimestamp.lower() == "true" if self.printTimestamp is not None else False
         logger.debug("additionalCRLF: " + str(self._additional_crlf) )
+        logger.debug("printCP:        " + str(self._print_cp) )
+        logger.debug("printTS:        " + str(self._print_ts) )
 
         try:
             logger.debug(f"Opening file {os.path.abspath(self.file_path)}")
             self.file = open(self.file_path, self.mode)
             await super(FileWriter, self).init()
         except Exception as e:
-            error_txt = "Error opening file '" + self.file_path + "' -> " + str(e) + "\n" + str(traceback.format_exc())
+            error_txt = "Error opening file '" + str(self.file_path) + "' -> " + str(e) + "\n" + str(traceback.format_exc())
             logger.error(error_txt)
             await self.send_notify(SimulationPhase.INIT, BlockStatus.ERROR_INIT, error_txt)
 
@@ -69,6 +79,10 @@ class FileWriter(BaseWrapper):
         logger.debug(f"processing STEP(CS: {self.currentStep})")
         try:
             if self.data is not None:
+                if self._print_ts:
+                    self.data = str(datetime.datetime.now().isoformat()) + " " + self.data
+                if self._print_cp:
+                    self.data = str(self.communication_point) + " " + self.data
                 self.file.write(self.data)
                 if self._additional_crlf:
                     self.file.write("\n")
@@ -76,6 +90,7 @@ class FileWriter(BaseWrapper):
                     logger.debug(f"processing STEP; data appended to file '{self.data}'")
                 else:
                     logger.debug(f"processing STEP; data written to file '{self.data}'")
+                self.data = "" # reset data after writing to file
                 await super(FileWriter, self).send_notify(SimulationPhase.EXECUTE, BlockStatus.EXECUTION_STEP_FINISHED, error_text="")
         except Exception as e:
             error_txt = "Error writing to file '" + str(self.file_path) + "' -> " + str(e) + "\n" + str(traceback.format_exc())
@@ -88,7 +103,9 @@ class FileWriter(BaseWrapper):
             self.file.close()
             self.file = None
         else:
-            raise ValueError("ERROR closing file '" + self.file_path + "':  File is not opened yet")
+            raise ValueError("ERROR closing file '" + str(self.file_path) + "':  File is not opened yet")
+
+        logger.debug("executing the finalize method (done)")
         await super(FileWriter, self).finalize()
 
     async def shut_down(self, status=None, error_text="") -> None:
@@ -102,7 +119,7 @@ class FileWriter(BaseWrapper):
 
 if __name__ == '__main__':
     try:
-        logger.debug("The main method of the file_line_provider.py gets executed!")
+        logger.debug("The main method of the file_writer.py gets executed!")
         asyncio.run(main(wrapper=FileWriter()))
     except KeyboardInterrupt:
         exit(0)

@@ -1,0 +1,140 @@
+{
+  "id": "id_template_MQTT_Publisher",
+  "name": "MQTT Publisher",
+  "description": "This module publishes data to a mosquitto MQTT broker for PROOF.",
+  "blockType": "BASE",
+  "type": "block",
+  "inputs": [{
+      "label": "hostname",
+      "description": "The host name",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": true,
+      "modelVarName": "hostname",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "port",
+      "description": "The port number",
+      "type": "INTEGER",
+      "phase": "INIT",
+      "required": true,
+      "modelVarName": "port",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "topic",
+      "description": "The topic to publish to",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": true,
+      "modelVarName": "topic",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "timeout",
+      "description": "The timeout in seconds for connecting to the broker",
+      "type": "INTEGER",
+      "phase": "INIT",
+      "required": false,
+      "unit": "seconds",
+      "modelVarName": "timeout",
+      "defaultValue": "5",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "message",
+      "description": "The message to publish",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "required": true,
+      "modelVarName": "message",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "QoS",
+      "description": "The Quality of Service level (0, 1, or 2)",
+      "type": "INTEGER",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "QoS",
+      "defaultValue": "0",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "client_id",
+      "description": "The client identifier",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "client_id",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "cafile_path",
+      "description": "Path to CA certificate file",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "cafile_path",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "certfile_path",
+      "description": "Path to client certificate file",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "certfile_path",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "keyfile_path",
+      "description": "Path to client key file",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "keyfile_path",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "username",
+      "description": "Username for broker authentication",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "username",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "password",
+      "description": "Password for broker authentication",
+      "type": "STRING",
+      "phase": "INIT",
+      "required": false,
+      "modelVarName": "password",
+      "communicationType": "STEPBASED_STATIC"
+    }
+  ],
+  "outputs": [],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_MQTT_Publisher",
+    "label": "prog_MQTT_Publisher",
+    "description": "This module publishes data to a mosquitto MQTT broker for PROOF.",
+    "tag": "prog_MQTT_Publisher",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_MQTT_Publisher",
+    "attachments": [
+      {
+        "id": "id_attachment_MQTT_Publisher",
+        "label": "attachment_MQTT_Publisher",
+        "path": "MQTT_Publisher.py",
+        "description": "This module publishes data to a mosquitto MQTT broker for PROOF."
+      }
+    ]
+  }
+}
