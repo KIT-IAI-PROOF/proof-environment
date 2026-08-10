@@ -19,7 +19,7 @@ To install PROOF, move to the repository [proof-environment](https://github.com/
 ## Download the worker image (optional)
 Starting with version 1.1.0, PROOF automatically downloads missing Docker images when needed. However, you can optionally download the [proof-worker-python image](https://github.com/orgs/KIT-IAI-PROOF/packages/container/package/proof-worker-python) in advance to speed up the first execution:
 ```
-docker pull ghcr.io/kit-iai-proof/proof-worker-python:1.2.0
+docker pull ghcr.io/kit-iai-proof/proof-worker-python:1.3.0
 ```
 
 ## Start and stop PROOF
@@ -37,11 +37,16 @@ Due to caching behaviour in some browsers, we **strongly recommend** opening the
 
 To access the workflow creation editor, the **credentials** to be used are *proof/proof*.
 
-To **stop PROOF**, simply use the stopPROOF script in the proof-environment directory:
+To **stop PROOF**, simply use the controlPROOF script in the proof-environment directory:
 ```
-./stopPROOF
+./controlPROOF
 ```
-**Windows:** Stop PROOF using the stopPROOF.bat file.
+**Windows:** Stop PROOF using the controlPROOF.bat file.
+
+- use the '-d' option to remove the containers instead of simply stopping them:
+```
+./controlPROOF -d
+```
 
 ## Data exchange
 Data exchange with PROOF works via the `proof-environment/data` folder structure:

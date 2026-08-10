@@ -1,0 +1,66 @@
+{
+  "id": "id_template_3_Building",
+  "name": "3. Building",
+  "description": "Simple Building Model: Building",
+  "blockType": "BASE",
+  "type": "block",
+  "inputs": [{
+    "label": "initial_indoor_temp",
+    "description": "Initial indoor Temperature of Block 3_Building",
+    "type": "FLOAT",
+    "phase": "INIT",
+    "required": true,
+    "unit": "°C",
+    "modelVarName": "indoor_temp",
+    "communicationType": "STEPBASED_STATIC"
+  },
+    {
+    "label": "p_hvac",
+    "description": "HVAC power of Block 3_Building",
+    "type": "FLOAT",
+    "phase": "EXECUTE",
+    "required": true,
+    "modelVarName": "p_hvac",
+    "communicationType": "STEPBASED"
+  },
+  {
+    "label": "outdoor_temp",
+    "description": "Outdoor Temperature of Block 3_Building",
+    "type": "FLOAT",
+    "phase": "EXECUTE",
+    "required": true,
+    "unit": "°C",
+    "modelVarName": "outdoor_temp",
+    "communicationType": "STEPBASED"
+  }
+  ],
+  "outputs": [{
+      "label": "indoor_temp",
+      "description": "Indoor Temperature of Block 3_Building",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "unit": "°C",
+      "modelVarName": "indoor_temp",
+      "communicationType": "STEPBASED"
+    }],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_3_Building",
+    "label": "prog_3_Building",
+    "description": "Simple Building Model: Building",
+    "tag": "prog_3_Building",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_3_Building",
+    "attachments": [
+      {
+        "id": "id_attachment_3_Building",
+        "label": "attachment_3_Building",
+        "path": "3_Building.py",
+        "description": "Simple Building Model: Building"
+      }
+    ]
+  }
+}

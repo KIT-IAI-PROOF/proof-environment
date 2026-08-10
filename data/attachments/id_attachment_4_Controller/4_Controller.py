@@ -51,11 +51,7 @@ class ControllerWrapper(BaseWrapper):
         }
 
         super(ControllerWrapper, self).__init__(bwoptions=options)
-        logger.info("Controller initialized with initial temp {self.indoor_temp}")
-
-    async def init(self, status=None, error_text="") -> None:
-
-        await super(ControllerWrapper, self).init()
+        logger.info(f"Controller initialized with initial temp {self.indoor_temp}")
 
     """
     -----------------------------------------------------------------------
@@ -81,6 +77,8 @@ class ControllerWrapper(BaseWrapper):
             pv = self.pv_power
             target_temp = self.target_temp_base  # Default comfort temp
 
+            logger.debug(f"Step {self.communication_point}: indoor_temp: {t_in}, price: {price}, pv_power: {pv}")
+            
             if pv is not None and pv > self.pv_threshold:
                 target_temp -= 1.0  # 目标变为 26.0°C (更凉快)
                 logger.debug(f"High PV detected ({pv:.2f} kW). Lowering target temp to {target_temp}")

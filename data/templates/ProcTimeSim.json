@@ -1,0 +1,60 @@
+{
+  "id": "id_ProcTimeSim",
+  "name": "ProcTimeSim",
+  "description": "A simple block that simulates a long-lasting processing time.",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#009000",
+  "inputs": [
+    {
+      "label": "proc_time",
+      "description": "virtual processing time in seconds as Float, default is 1.0",
+      "type": "FLOAT",
+      "phase": "INIT",
+      "required": false,
+      "defaultValue": "1.0",
+      "unit": "s",
+      "modelVarName": "proc_time",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "opt_in",
+      "description": "optional input as String",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "opt_input",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "opt_out",
+      "description": "optional output as String",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "opt_output",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "syncStrategy": "INSTANT",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_proc_time_sim_program",
+    "label": "proc_time_sim_program",
+    "description": "A simple block that simulates a long-lasting processing time.",
+    "tag": "procTimeSim",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_proc_time_sim",
+    "attachments": [
+      {
+        "id": "id_attachment_proc_time_sim",
+        "label": "attachment_proc_time_sim",
+        "path": "proc_time_sim.py",
+        "description": "A simple block that simulates a long-lasting processing time."
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,91 @@
+{
+  "id": "id_template_file_writer_python",
+  "name": "File Writer - python",
+  "description": "Write data from an input line to a file",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#009000",
+  "inputs": [
+    {
+      "label": "file name",
+      "description": "Path to the output file where data will be written",
+      "type": "FILE_NAME",
+      "phase": "INIT",
+      "required": true,
+      "modelVarName": "file_name",
+      "defaultValue": "output.txt",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "mode",
+      "description": "append mode (a) or overwrite mode (w)",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "mode",
+      "required": false,
+      "defaultValue": "w",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "additionalCRLF",
+      "description": "Whether to add an additional Carriage Return and Line Feed after each write (true/false)",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "additionalCRLF",
+      "required": false,
+      "defaultValue": "false",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "printCP",
+      "description": "also write the current communicationPoint (true/false)?",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "printCP",
+      "required": false,
+      "defaultValue": "false",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "printTimestamp",
+      "description": "also write the current timestamp (true/false)?",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "printTimestamp",
+      "required": false,
+      "defaultValue": "false",
+      "communicationType": "STEPBASED_STATIC"
+    },    
+    {
+      "label": "data",
+      "description": "data to be written to a file",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "data",
+      "required": true,
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "outputs": [],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "communicationParadigm": "STEPBASED",
+  "syncStrategy": "ALL_VALUES",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_file_writer_python",
+    "label": "prog_file_writer_python",
+    "description": "Write data from an input line to a file",
+    "tag": "fileWriter",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_file_writer_python",
+    "attachments": [
+      {
+        "id": "id_attachment_file_writer_python",
+        "label": "attachment_file_writer_python",
+        "path": "file_writer.py",
+        "description": "Write data from an input line to a file"
+      }
+    ]
+  }
+
+}

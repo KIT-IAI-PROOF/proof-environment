@@ -1,0 +1,55 @@
+{
+  "id": "id_template_2_StaticGenerator",
+  "name": "2. StaticGenerator",
+  "description": "Simple Building Model: StaticGenerator",
+  "blockType": "BASE",
+  "type": "block",
+  "inputs": [{
+      "label": "irradiance",
+      "description": "irradiance of Block 2_StaticGenerator",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": true,
+      "modelVarName": "irradiance",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "outdoor_temp",
+      "description": "Outdoor temperature of Block 2_StaticGenerator",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "required": true,
+      "unit": "°C",
+      "modelVarName": "outdoor_temp",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "outputs": [{
+      "label": "pv_power",
+      "description": "Solar power of Block 2_StaticGenerator",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "pv_power",
+      "communicationType": "STEPBASED"
+    }],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "false",
+  "program": {
+    "id": "id_prog_2_StaticGenerator",
+    "label": "prog_2_StaticGenerator",
+    "description": "Simple Building Model: StaticGenerator",
+    "tag": "prog_2_StaticGenerator",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_2_StaticGenerator",
+    "attachments": [
+      {
+        "id": "id_attachment_2_StaticGenerator",
+        "label": "attachment_2_StaticGenerator",
+        "path": "2_StaticGenerator.py",
+        "description": "Simple Building Model: StaticGenerator"
+      }
+    ]
+  }
+}
