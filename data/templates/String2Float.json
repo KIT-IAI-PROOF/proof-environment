@@ -27,7 +27,7 @@
     }
   ],
   "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
-  "syncStrategy": "INSTANT",
+  "syncStrategy": "WAIT_FOR_SYNC",
   "communicationParadigm": "STEPBASED",
   "shutdownRelevant": "false",
   "program": {
