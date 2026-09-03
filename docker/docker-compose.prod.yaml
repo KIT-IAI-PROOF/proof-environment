@@ -221,7 +221,7 @@ volumes:
       device: ${PROOF_DATA}
   proof-postgres:
     external: false
-    name: proof-postgres-github-corrected-templates-2
+    name: proof-postgres
 
 networks:
   proof:
