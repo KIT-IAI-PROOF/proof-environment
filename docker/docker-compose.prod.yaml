@@ -72,7 +72,7 @@ services:
     restart: *restart-policy
     platform: linux/amd64
     volumes:
-      - "proof-files-github:${PROOF_DIR}:rw"
+      - "proof-files:${PROOF_DIR}:rw"
     networks:
       - proof
     environment:
@@ -115,7 +115,7 @@ services:
     restart: *restart-policy
     platform: linux/amd64
     volumes:
-      - "proof-files-github:${PROOF_DIR}:rw"
+      - "proof-files:${PROOF_DIR}:rw"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - proof
@@ -134,7 +134,7 @@ services:
       PROOF_WORKER_LOGGING_DIRECTORY: ${PROOF_DIR}/executions/%EXEC_ID/logs
       PROOF_ATTACHMENTS_DIRECTORY: *attachments-path
       PROOF_USERDATA_DIRECTORY: ${PROOF_DIR}/userdata
-      PROOF_VOLUME: proof-files-github
+      PROOF_VOLUME: proof-files
     ports:
       - "8200:8200"
     depends_on:
@@ -174,7 +174,7 @@ services:
       PROOF_DIR: ${PROOF_DIR}
       PROOF_CONFIG_BASEPATH: "http://proof-config-manager:8100"
     volumes:
-      - "proof-files-github:${PROOF_DIR}:rw"
+      - "proof-files:${PROOF_DIR}:rw"
       - "./scripts:/proof/scripts:ro"
       - "${PROOF_DATA}/templates:/proof/templates:ro"
       - "${PROOF_DATA}/workflows:/proof/workflows:ro"
@@ -211,9 +211,9 @@ services:
       retries: 3
 
 volumes:
-  proof-files-github:
+  proof-files:
     external: false
-    name: proof-files-github
+    name: proof-files
     driver: local
     driver_opts:
       type: none
