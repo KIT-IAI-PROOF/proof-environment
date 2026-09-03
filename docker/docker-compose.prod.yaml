@@ -72,7 +72,7 @@ services:
     restart: *restart-policy
     platform: linux/amd64
     volumes:
-      - "proof-files:${PROOF_DIR}:rw"
+      - "proof-files-github:${PROOF_DIR}:rw"
     networks:
       - proof
     environment:
@@ -111,11 +111,11 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: ghcr.io/kit-iai-proof/proof-orchestrator:1.3.0
+    image: ghcr.io/kit-iai-proof/proof-orchestrator:1.3.1
     restart: *restart-policy
     platform: linux/amd64
     volumes:
-      - "proof-files:${PROOF_DIR}:rw"
+      - "proof-files-github:${PROOF_DIR}:rw"
       - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
       - proof
@@ -134,7 +134,7 @@ services:
       PROOF_WORKER_LOGGING_DIRECTORY: ${PROOF_DIR}/executions/%EXEC_ID/logs
       PROOF_ATTACHMENTS_DIRECTORY: *attachments-path
       PROOF_USERDATA_DIRECTORY: ${PROOF_DIR}/userdata
-      PROOF_VOLUME: proof-files
+      PROOF_VOLUME: proof-files-github
     ports:
       - "8200:8200"
     depends_on:
@@ -174,7 +174,7 @@ services:
       PROOF_DIR: ${PROOF_DIR}
       PROOF_CONFIG_BASEPATH: "http://proof-config-manager:8100"
     volumes:
-      - "proof-files:${PROOF_DIR}:rw"
+      - "proof-files-github:${PROOF_DIR}:rw"
       - "./scripts:/proof/scripts:ro"
       - "${PROOF_DATA}/templates:/proof/templates:ro"
       - "${PROOF_DATA}/workflows:/proof/workflows:ro"
@@ -211,9 +211,9 @@ services:
       retries: 3
 
 volumes:
-  proof-files:
+  proof-files-github:
     external: false
-    name: proof-files
+    name: proof-files-github
     driver: local
     driver_opts:
       type: none
@@ -221,7 +221,7 @@ volumes:
       device: ${PROOF_DATA}
   proof-postgres:
     external: false
-    name: proof-postgres
+    name: proof-postgres-github-corrected-templates-2
 
 networks:
   proof:
