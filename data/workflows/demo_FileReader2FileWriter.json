@@ -29,7 +29,7 @@
       "textColor" : "#ffffff",
       "type" : "block",
       "blockType" : "BASE",
-      "containerImage" : "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+      "containerImage" : "ghcr.io/kit-iai-proof/proof-worker-python:1.3.1",
       "status" : null,
       "communicationParadigm" : "STEPBASED",
       "syncStrategy" : "WAIT_FOR_SYNC",
@@ -139,10 +139,10 @@
       "textColor" : "#ffffff",
       "type" : "block",
       "blockType" : "BASE",
-      "containerImage" : "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+      "containerImage" : "ghcr.io/kit-iai-proof/proof-worker-python:1.3.1",
       "status" : null,
       "communicationParadigm" : "STEPBASED",
-      "syncStrategy" : "ALL_VALUES",
+      "syncStrategy" : "WAIT_FOR_SYNC",
       "position" : {
         "x" : 443,
         "y" : 227
