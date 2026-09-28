@@ -1,6 +1,6 @@
 {
     "id" : "demo_FileReader2FileWriter",
-    "label" : "DEMO_FileReader-to-FileWriter",
+    "label" : "DEMO_FileReader-to-FileWriter (python)",
     "description" : "A simple test workflow that reads from a file and writes to another file",
     "communicationParadigm" : "STEPBASED",
     "simulationStrategy" : "WAIT_AND_CONTINUE",

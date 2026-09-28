@@ -1,7 +1,7 @@
 {
     "id" : "demo_FileReader2FileWriter_java",
-    "label" : "DEMO_FileReader-to-FileWriter",
-    "description" : "A simple test java workflow that reads from a file and writes to another file",
+    "label" : "DEMO_FileReader-to-FileWriter (java)",
+    "description" : "A simple java test workflow that reads from a file and writes to another file",
     "communicationParadigm" : "STEPBASED",
     "simulationStrategy" : "WAIT_AND_CONTINUE",
     "stepBasedConfig" : {
