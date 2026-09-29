@@ -10,7 +10,7 @@
       "endTime" : 10,
       "startPoint" : 0,
       "endPoint" : 10,
-      "duration" : 1000,
+      "duration" : 250,
       "defaultStepSize" : 1,
       "stepSizeDefinitions" : { },
       "createdBy" : "proof",
