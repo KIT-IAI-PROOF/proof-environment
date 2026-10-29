@@ -68,7 +68,7 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-config-manager:1.5.0
+    image: ghcr.io/kit-iai-proof//proof-config-manager:1.4.0-dev0
     restart: *restart-policy
     platform: linux/amd64
     volumes:
@@ -92,7 +92,7 @@ services:
 
   proof-monitoring-service:
     container_name: proof-monitoring-service
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-monitoring-service:1.0.1
+    image: ghcr.io/kit-iai-proof/proof-monitoring-service:1.0.0
     restart: *restart-policy
     platform: linux/amd64
     networks:
@@ -111,7 +111,7 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-orchestrator:4.8.11
+    image: ghcr.io/kit-iai-proof//proof-orchestrator:1.4.0-dev0
     restart: *restart-policy
     platform: linux/amd64
     volumes:
@@ -143,7 +143,7 @@ services:
 
   proof-frontend:
     container_name: proof-frontend
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-ui:3.3.0
+    image: ghcr.io/kit-iai-proof//proof-ui:1.4.0-dev0
     restart: *restart-policy
     platform: linux/amd64
     environment:
@@ -161,7 +161,7 @@ services:
 
   proof-importer:
     container_name: proof-importer
-    image: iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-importer:3.0.2
+    image: ghcr.io/kit-iai-proof//proof-importer:1.0.0
     restart: *restart-policy
     platform: linux/amd64
     networks:
