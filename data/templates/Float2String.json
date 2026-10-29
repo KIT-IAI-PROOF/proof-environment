@@ -28,7 +28,7 @@
   ],
   "containerImage": "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:latest",
   "communicationParadigm": "STEPBASED",
-  "syncStrategy": "INSTANT",
+  "syncStrategy": "WAIT_FOR_SYNC",
   "shutdownRelevant": "false",
   "program": {
     "id": "id_prog_float_2_string",
