@@ -68,7 +68,7 @@ services:
 
   proof-config-manager:
     container_name: proof-config-manager
-    image: ghcr.io/kit-iai-proof//proof-config-manager:1.4.0-dev0
+    image: ghcr.io/kit-iai-proof/proof-config-manager:1.4.0-dev0
     restart: *restart-policy
     platform: linux/amd64
     volumes:
@@ -111,7 +111,7 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: ghcr.io/kit-iai-proof//proof-orchestrator:1.4.0-dev0
+    image: ghcr.io/kit-iai-proof/proof-orchestrator:1.4.0-dev0
     restart: *restart-policy
     platform: linux/amd64
     volumes:
@@ -143,7 +143,7 @@ services:
 
   proof-frontend:
     container_name: proof-frontend
-    image: ghcr.io/kit-iai-proof//proof-ui:1.4.0-dev0
+    image: ghcr.io/kit-iai-proof/proof-ui:1.4.0-dev0
     restart: *restart-policy
     platform: linux/amd64
     environment:
@@ -161,7 +161,7 @@ services:
 
   proof-importer:
     container_name: proof-importer
-    image: ghcr.io/kit-iai-proof//proof-importer:1.0.0
+    image: ghcr.io/kit-iai-proof/proof-importer:1.0.0
     restart: *restart-policy
     platform: linux/amd64
     networks:
