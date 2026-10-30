@@ -9,6 +9,9 @@ print_help() {
     | sed 's/^\s*//; s/|/, /g; s/).*##[[:space:]]*/\t/' \
     | awk -F'\t' '{ printf "  %-20s %s\n", $1, $2 }'
   echo ""
+  echo "Environment Variables:"
+  echo "  ENABLE_TIME_MEASUREMENT=true       Measure and display timing information (can also use --time flag)"
+  echo ""
   echo "--- docker compose up --help ---"
   docker compose -f $COMPOSE_FILE --env-file proof.env up --help
 }
@@ -37,6 +40,7 @@ cd docker
 
 COMPOSE_FILE="docker-compose.prod.yaml"
 DETACHED=true
+DO_IMPORT=true
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -44,6 +48,8 @@ while [[ $# -gt 0 ]]; do
     -f|--compose-file) COMPOSE_FILE="$2"; shift 2 ;;            ## Set custom docker compose file path (relative to docker/)
     -l|--logging) DETACHED=false; shift ;;                      ## Show logs after starting services
     -p|--port) PROOF_FRONTEND_PORT="$2"; shift 2 ;;             ## Override the frontend port (PROOF_FRONTEND_PORT)
+    --time) ENABLE_TIME_MEASUREMENT="true"; shift ;;            ## Measure and display timing information
+    -ni|--no-import) DO_IMPORT=false; shift ;;                  ## Disable import
     -h|--help) print_help; exit 0 ;;                            ## Show this help message
     *)  break ;;
   esac
@@ -84,6 +90,8 @@ echo "==============================="
 echo " PROOF Containers are being started now. This might take a while..."
 echo "==============================="
 
+echo "Import requested: $DO_IMPORT"
+
 DETACH_CMD=''  # default: detached
 if [ "$DETACHED" = true ]; then
     DETACH_CMD='-d'
@@ -101,18 +109,52 @@ if [ "$DETACHED" = false ]; then
     
     # Set up cleanup trap to stop import script when docker compose exits
     trap "kill $IMPORT_PID 2>/dev/null; wait $IMPORT_PID 2>/dev/null" EXIT INT TERM
-    
-    # Start docker compose in foreground (shows logs)
-    docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" --profile import-templates up "$@"
-    
-    # Wait for import script to complete after docker compose exits
-    wait $IMPORT_PID 2>/dev/null || true
-else
-    # Detached mode (default or -d): Start services in background, then run import
-    docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" --profile import-templates up $DETACH_CMD "$@"
-    
-    # Import the templates and workflows after services are started
-    ./scripts/startup-import.sh
+fi
+
+# Source common utility functions for waiting
+source ./scripts/common.sh
+
+# Configuration for waiting
+CONFIG_MANAGER_URL="${CONFIG_MANAGER_URL:-http://localhost:8100}"
+WAIT_TIMEOUT="${WAIT_TIMEOUT:-180}"
+ENABLE_TIME_MEASUREMENT="${ENABLE_TIME_MEASUREMENT:-false}"
+
+# --- Timing measurement ---
+if [ "$ENABLE_TIME_MEASUREMENT" = "true" ]; then
+    start_time=$(date +%s%N)
+    echo "start_time: $(date '+%Y-%m-%d %H:%M:%S.%3N')"
+fi
+
+# Detached mode (default or -d): Start services in background, then run import
+docker compose -f $COMPOSE_FILE --env-file "$ENV_FILE" --profile import-templates up $DETACH_CMD "$@"
+
+if [ "$ENABLE_TIME_MEASUREMENT" = "true" ]; then
+    waiting_start_time=$(date +%s%N)
+    echo "curr_time: $(date '+%Y-%m-%d %H:%M:%S.%3N')"
+fi
+
+# Wait for config-manager to be started (required for import script)
+wait_for_config_manager "$CONFIG_MANAGER_URL" "$WAIT_TIMEOUT" "STARTUP" || true
+
+if [ "$ENABLE_TIME_MEASUREMENT" = "true" ]; then
+    config_manager_ready_time=$(date +%s%N)
+    elapsed_ms=$(( (config_manager_ready_time - waiting_start_time) / 1000000 ))
+    echo "config_manager_ready_time: $(date '+%Y-%m-%d %H:%M:%S.%3N') => waiting took ${elapsed_ms} ms"
+fi
+
+# Pass ENABLE_TIME_MEASUREMENT to import script
+if [ "$ENABLE_TIME_MEASUREMENT" = "true" ]; then
+    export ENABLE_TIME_MEASUREMENT=true
+fi
+
+if [ "$DO_IMPORT" = true ]; then
+    if [ "$DETACHED" = false ]; then
+        # Wait for import script to complete after docker compose exits
+        wait $IMPORT_PID 2>/dev/null || true
+    else
+        # Import the templates and workflows after services are started
+        ./scripts/startup-import.sh
+    fi
 fi
 
 echo "==============================="

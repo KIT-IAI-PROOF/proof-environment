@@ -1,0 +1,110 @@
+{
+  "id": "id_template_single_fmu_runner_no_input",
+  "name": "Single FMU Runner (no input)",
+  "description": "Runs a single FMU (Functional Mock-up Unit) without inputs as configured in the static inputs",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#009000",
+  "inputs": [
+    {
+      "label": "fmu_file_path",
+      "description": "Path to the FMU file, overriding the fmu_directory from the configuration file. If empty, the path from the configuration file metadata is used.",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "fmu_file_path",
+      "required": true,
+      "defaultValue": "",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_parameter_dict",
+      "description": "List of the input parameters of the FMU e.g. {\"x\": 0, \"y\": 1 }.",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "parameter_dict",
+      "required": false,
+      "defaultValue": "",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_output_list",
+      "description": "List of the output variables of the FMU e.g. [\"a\", \"b\"].",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "output_list",
+      "required": false,
+      "defaultValue": "",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_step_size",
+      "description": "Duration of each FMU time step in minutes",
+      "type": "FLOAT",
+      "phase": "INIT",
+      "unit": "minutes",
+      "modelVarName": "fmu_step_size",
+      "required": false,
+      "defaultValue": "15",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_output_interval",
+      "description": "Output sampling interval in minutes. Must be <= fmu_step_size. Defaults to fmu_step_size if not set. Smaller values produce more output rows per PROOF step.",
+      "type": "FLOAT",
+      "phase": "INIT",
+      "unit": "minutes",
+      "modelVarName": "fmu_output_interval",
+      "required": false,
+      "defaultValue": "",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "license_file_name",
+      "description": "License file necessary to run the FMU. Must be provided directly or via config file.",
+      "type": "FILE_NAME",
+      "phase": "INIT",
+      "modelVarName": "license_file_name",
+      "required": false,
+      "defaultValue": "",
+      "communicationType": "STEPBASED_STATIC"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "fmu_output_json",
+      "description": "Simulation results as a JSON string",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "fmu_output_json",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "fmu_output_csv",
+      "description": "Simulation results as a CSV string",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "fmu_output_csv",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "communicationParadigm": "STEPBASED",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "shutdownRelevant": "true",
+  "program": {
+    "id": "id_prog_fmu_runner",
+    "label": "prog_fmu_runner",
+    "description": "Runs an FMU",
+    "tag": "fmuRunner",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_fmu_runner",
+    "attachments": [
+      {
+        "id": "id_attachment_fmu_runner",
+        "label": "attachment_fmu_runner",
+        "path": "fmu_runner.py",
+        "description": "FMU Runner wrapper script"
+      }
+    ]
+  }
+}
