@@ -15,8 +15,8 @@
     "stepSizeDefinitions" : { },
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793111606.281017000,
-    "lastModifiedDate" : 1793111606.330869000,
+    "creationDate" : 1793629000.552805000,
+    "lastModifiedDate" : 1793629000.599909000,
     "workerTimeout" : 10,
     "inputTimeout" : 10
   },
@@ -54,12 +54,12 @@
         "createdBy" : "proof",
         "lastModifiedBy" : "proof",
         "creationDate" : 1785767041.589319000,
-        "lastModifiedDate" : 1793111606.331263000
+        "lastModifiedDate" : 1793629000.600449000
       } ],
       "createdBy" : "proof",
       "lastModifiedBy" : "proof",
       "creationDate" : 1785767041.587040000,
-      "lastModifiedDate" : 1793111606.331376000
+      "lastModifiedDate" : 1793629000.600598000
     },
     "outputs" : [ {
       "id" : "d115b082-da53-4031-b9d0-26bbba874593",
@@ -73,7 +73,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493591000
+      "lastModifiedDate" : 1793629325.547742000
     } ],
     "inputs" : [ {
       "id" : "cb7c1cfb-4701-487b-b8f1-acf3e62e8760",
@@ -90,7 +90,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493627000
+      "lastModifiedDate" : 1793629325.547781000
     }, {
       "id" : "e2bd5ae3-3366-458a-8528-c2299f8d5271",
       "required" : true,
@@ -106,7 +106,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493667000
+      "lastModifiedDate" : 1793629325.547824000
     }, {
       "id" : "584f05e8-0ad7-4b8b-9d89-17a58a94d7fe",
       "required" : true,
@@ -122,12 +122,12 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493703000
+      "lastModifiedDate" : 1793629325.547970000
     } ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793111606.285388000,
-    "lastModifiedDate" : 1793111606.331543000,
+    "creationDate" : 1793629000.557324000,
+    "lastModifiedDate" : 1793629000.600831000,
     "shutdownRelevant" : false,
     "interfaceType" : "STDIO"
   }, {
@@ -164,12 +164,12 @@
         "createdBy" : "proof",
         "lastModifiedBy" : "proof",
         "creationDate" : 1785767042.515304000,
-        "lastModifiedDate" : 1793111606.331766000
+        "lastModifiedDate" : 1793629000.601180000
       } ],
       "createdBy" : "proof",
       "lastModifiedBy" : "proof",
       "creationDate" : 1785767042.513504000,
-      "lastModifiedDate" : 1793111606.332141000
+      "lastModifiedDate" : 1793629000.601299000
     },
     "outputs" : [ {
       "id" : "e6ab9d46-b8a8-413a-b209-a5efeaf1ea1d",
@@ -183,24 +183,24 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493437000
+      "lastModifiedDate" : 1793629325.547577000
     } ],
     "inputs" : [ {
-      "id" : "4def1623-c0ae-4c36-aec8-bd6bbc1c537c",
-      "required" : false,
-      "label" : "ignore_first_line",
-      "description" : "Whether to ignore the first line of the input file (e.g., header line)",
-      "type" : "STRING",
+      "id" : "81716579-d6c5-4d90-a513-66886204565c",
+      "required" : true,
+      "label" : "file_name",
+      "description" : "Path to the input file to read lines from",
+      "type" : "FILE_NAME",
       "unit" : null,
-      "modelVarName" : "ignore_first_line",
-      "defaultValue" : "false",
+      "modelVarName" : "file_name",
+      "defaultValue" : "input.txt",
       "startValue" : null,
       "phase" : "INIT",
       "communicationType" : "STEPBASED_STATIC",
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493474000
+      "lastModifiedDate" : 1793629325.547618000
     }, {
       "id" : "2875db6e-6322-4d06-8153-83f03450dce8",
       "required" : false,
@@ -216,28 +216,28 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493511000
+      "lastModifiedDate" : 1793629325.547659000
     }, {
-      "id" : "81716579-d6c5-4d90-a513-66886204565c",
-      "required" : true,
-      "label" : "file_name",
-      "description" : "Path to the input file to read lines from",
-      "type" : "FILE_NAME",
+      "id" : "4def1623-c0ae-4c36-aec8-bd6bbc1c537c",
+      "required" : false,
+      "label" : "ignore_first_line",
+      "description" : "Whether to ignore the first line of the input file (e.g., header line)",
+      "type" : "STRING",
       "unit" : null,
-      "modelVarName" : "file_name",
-      "defaultValue" : "input.txt",
+      "modelVarName" : "ignore_first_line",
+      "defaultValue" : "false",
       "startValue" : null,
       "phase" : "INIT",
       "communicationType" : "STEPBASED_STATIC",
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493547000
+      "lastModifiedDate" : 1793629325.547697000
     } ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793111606.292367000,
-    "lastModifiedDate" : 1793111606.332324000,
+    "creationDate" : 1793629000.564029000,
+    "lastModifiedDate" : 1793629000.601497000,
     "shutdownRelevant" : false,
     "interfaceType" : "STDIO"
   }, {
@@ -274,12 +274,12 @@
         "createdBy" : "proof",
         "lastModifiedBy" : "proof",
         "creationDate" : 1785767043.154968000,
-        "lastModifiedDate" : 1793111606.332516000
+        "lastModifiedDate" : 1793629000.602006000
       } ],
       "createdBy" : "proof",
       "lastModifiedBy" : "proof",
       "creationDate" : 1785767043.153187000,
-      "lastModifiedDate" : 1793111606.332610000
+      "lastModifiedDate" : 1793629000.602178000
     },
     "outputs" : [ ],
     "inputs" : [ {
@@ -297,7 +297,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493213000
+      "lastModifiedDate" : 1793629325.547326000
     }, {
       "id" : "62ad41aa-3830-44c2-9637-4d226665ca31",
       "required" : true,
@@ -313,23 +313,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493250000
-    }, {
-      "id" : "fd619d2e-a4da-439a-b2d5-94eda8ec2789",
-      "required" : false,
-      "label" : "additionalCRLF",
-      "description" : "Whether to add an additional Carriage Return and Line Feed after each write (true/false)",
-      "type" : "STRING",
-      "unit" : null,
-      "modelVarName" : "additionalCRLF",
-      "defaultValue" : "false",
-      "startValue" : null,
-      "phase" : "INIT",
-      "communicationType" : "STEPBASED_STATIC",
-      "createdBy" : null,
-      "lastModifiedBy" : "proof",
-      "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493287000
+      "lastModifiedDate" : 1793629325.547366000
     }, {
       "id" : "4f3407e5-7e78-4b3e-8449-acbd2e07eca1",
       "required" : false,
@@ -345,7 +329,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493323000
+      "lastModifiedDate" : 1793629325.547405000
     }, {
       "id" : "85e71b99-098e-4be7-aafa-016c4882c5f1",
       "required" : false,
@@ -361,7 +345,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493359000
+      "lastModifiedDate" : 1793629325.547444000
     }, {
       "id" : "54724459-9b94-42df-9e5f-b6814c45f4e4",
       "required" : true,
@@ -377,12 +361,28 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493394000
+      "lastModifiedDate" : 1793629325.547482000
+    }, {
+      "id" : "fd619d2e-a4da-439a-b2d5-94eda8ec2789",
+      "required" : false,
+      "label" : "additionalCRLF",
+      "description" : "Whether to add an additional Carriage Return and Line Feed after each write (true/false)",
+      "type" : "STRING",
+      "unit" : null,
+      "modelVarName" : "additionalCRLF",
+      "defaultValue" : "false",
+      "startValue" : null,
+      "phase" : "INIT",
+      "communicationType" : "STEPBASED_STATIC",
+      "createdBy" : null,
+      "lastModifiedBy" : "proof",
+      "creationDate" : null,
+      "lastModifiedDate" : 1793629325.547519000
     } ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793111606.298890000,
-    "lastModifiedDate" : 1793111606.332734000,
+    "creationDate" : 1793629000.569378000,
+    "lastModifiedDate" : 1793629000.602370000,
     "shutdownRelevant" : false,
     "interfaceType" : "STDIO"
   }, {
@@ -419,31 +419,15 @@
         "createdBy" : "proof",
         "lastModifiedBy" : "proof",
         "creationDate" : 1785767043.154968000,
-        "lastModifiedDate" : 1793111606.332516000
+        "lastModifiedDate" : 1793629000.602006000
       } ],
       "createdBy" : "proof",
       "lastModifiedBy" : "proof",
       "creationDate" : 1785767043.153187000,
-      "lastModifiedDate" : 1793111606.332610000
+      "lastModifiedDate" : 1793629000.602178000
     },
     "outputs" : [ ],
     "inputs" : [ {
-      "id" : "c163e538-d2f3-49d8-9c1b-ad6742bdf3ad",
-      "required" : true,
-      "label" : "file name",
-      "description" : "Path to the output file where data will be written",
-      "type" : "FILE_NAME",
-      "unit" : null,
-      "modelVarName" : "file_name",
-      "defaultValue" : "output.txt",
-      "startValue" : null,
-      "phase" : "INIT",
-      "communicationType" : "STEPBASED_STATIC",
-      "createdBy" : null,
-      "lastModifiedBy" : "proof",
-      "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492966000
-    }, {
       "id" : "33fbf034-1682-4cfc-b227-a73f79fff4ae",
       "required" : false,
       "label" : "printCP",
@@ -458,7 +442,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493003000
+      "lastModifiedDate" : 1793629325.547151000
     }, {
       "id" : "27622fcc-a990-46e1-8636-bbb8b5250b80",
       "required" : false,
@@ -474,7 +458,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493055000
+      "lastModifiedDate" : 1793629325.547197000
     }, {
       "id" : "1c0c5cc5-92fb-43ed-8b17-f255bca0a486",
       "required" : true,
@@ -490,7 +474,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493093000
+      "lastModifiedDate" : 1793629325.547235000
     }, {
       "id" : "1b43f92e-a172-42fa-88b8-a0e01b0cd82e",
       "required" : false,
@@ -506,7 +490,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493166000
+      "lastModifiedDate" : 1793629325.547009000
     }, {
       "id" : "e11943c7-80c3-41ad-b348-9bc89f60b088",
       "required" : false,
@@ -522,12 +506,28 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.493130000
+      "lastModifiedDate" : 1793629325.547049000
+    }, {
+      "id" : "c163e538-d2f3-49d8-9c1b-ad6742bdf3ad",
+      "required" : true,
+      "label" : "file name",
+      "description" : "Path to the output file where data will be written",
+      "type" : "FILE_NAME",
+      "unit" : null,
+      "modelVarName" : "file_name",
+      "defaultValue" : "output.txt",
+      "startValue" : null,
+      "phase" : "INIT",
+      "communicationType" : "STEPBASED_STATIC",
+      "createdBy" : null,
+      "lastModifiedBy" : "proof",
+      "creationDate" : null,
+      "lastModifiedDate" : 1793629325.547273000
     } ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793111606.306483000,
-    "lastModifiedDate" : 1793111606.333000000,
+    "creationDate" : 1793629000.575846000,
+    "lastModifiedDate" : 1793629000.603210000,
     "shutdownRelevant" : true,
     "interfaceType" : "STDIO"
   }, {
@@ -564,12 +564,12 @@
         "createdBy" : "proof",
         "lastModifiedBy" : "proof",
         "creationDate" : 1788188887.671085000,
-        "lastModifiedDate" : 1793111606.333200000
+        "lastModifiedDate" : 1793629000.603512000
       } ],
       "createdBy" : "proof",
       "lastModifiedBy" : "proof",
       "creationDate" : 1788188887.656202000,
-      "lastModifiedDate" : 1793111606.333285000
+      "lastModifiedDate" : 1793629000.603666000
     },
     "outputs" : [ {
       "id" : "e758aa32-b7ed-4a19-ba7f-857a47b673e6",
@@ -583,7 +583,7 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492538000
+      "lastModifiedDate" : 1793629325.546523000
     }, {
       "id" : "5c42787a-0cbf-4ece-8f66-fe4c16fc1089",
       "label" : "fmu_output_json",
@@ -596,42 +596,10 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492595000
+      "lastModifiedDate" : 1793629325.546591000
     } ],
     "inputs" : [ {
-      "id" : "1efef9fe-de46-4109-beb6-5d05239e0d5f",
-      "required" : false,
-      "label" : "fmu_parameter_dict",
-      "description" : "List of the input parameters of the FMU e.g. {\"x\": 0, \"y\": 1 }.",
-      "type" : "STRING",
-      "unit" : null,
-      "modelVarName" : "parameter_dict",
-      "defaultValue" : "",
-      "startValue" : null,
-      "phase" : "INIT",
-      "communicationType" : "STEPBASED_STATIC",
-      "createdBy" : null,
-      "lastModifiedBy" : "proof",
-      "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492650000
-    }, {
-      "id" : "58559321-2b1c-41c6-9012-a653706d9437",
-      "required" : true,
-      "label" : "fmu_input_list",
-      "description" : "List of the input variables of the FMU e.g. [\"x\", \"y\"] or with start values {\"x\": 0, \"y\": 1 }.",
-      "type" : "STRING",
-      "unit" : null,
-      "modelVarName" : "input_dict",
-      "defaultValue" : null,
-      "startValue" : null,
-      "phase" : "INIT",
-      "communicationType" : "STEPBASED_STATIC",
-      "createdBy" : null,
-      "lastModifiedBy" : "proof",
-      "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492693000
-    }, {
-      "id" : "8d56273f-031d-47ef-a6e8-7b87ff351774",
+      "id" : "412b04d4-a9f7-44eb-b6ae-0f112959e0c2",
       "required" : true,
       "label" : "fmu_file_path",
       "description" : "Path to the FMU file, overriding the fmu_directory from the configuration file. If empty, the path from the configuration file metadata is used.",
@@ -645,9 +613,41 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492732000
+      "lastModifiedDate" : 1793629325.546661000
     }, {
-      "id" : "80934cbf-2c3d-40b0-a5c0-1db0cdd1ac80",
+      "id" : "feba801f-d534-47f7-98e0-709c00fb551c",
+      "required" : false,
+      "label" : "fmu_parameter_dict",
+      "description" : "List of the input parameters of the FMU e.g. {\"x\": 0, \"y\": 1 }.",
+      "type" : "STRING",
+      "unit" : null,
+      "modelVarName" : "parameter_dict",
+      "defaultValue" : "",
+      "startValue" : null,
+      "phase" : "INIT",
+      "communicationType" : "STEPBASED_STATIC",
+      "createdBy" : null,
+      "lastModifiedBy" : "proof",
+      "creationDate" : null,
+      "lastModifiedDate" : 1793629325.546708000
+    }, {
+      "id" : "5db2f8f9-1c99-4b63-8c64-d50a38d86dda",
+      "required" : true,
+      "label" : "fmu_input_list",
+      "description" : "List of the input variables of the FMU e.g. [\"x\", \"y\"] or with start values {\"x\": 0, \"y\": 1 }.",
+      "type" : "STRING",
+      "unit" : null,
+      "modelVarName" : "input_dict",
+      "defaultValue" : "",
+      "startValue" : null,
+      "phase" : "INIT",
+      "communicationType" : "STEPBASED_STATIC",
+      "createdBy" : null,
+      "lastModifiedBy" : "proof",
+      "creationDate" : null,
+      "lastModifiedDate" : 1793629325.546749000
+    }, {
+      "id" : "2f8d7079-da38-48d4-9b7f-de1d424f4113",
       "required" : false,
       "label" : "fmu_output_list",
       "description" : "List of the output variables of the FMU e.g. [\"a\", \"b\"].",
@@ -661,9 +661,9 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492769000
+      "lastModifiedDate" : 1793629325.546787000
     }, {
-      "id" : "5237fdae-d308-4c3b-be8b-51c394bb41c3",
+      "id" : "01a0c12c-09a2-45a1-a37c-ad241307bef1",
       "required" : false,
       "label" : "fmu_step_size",
       "description" : "Duration of each FMU time step in minutes",
@@ -677,9 +677,9 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492806000
+      "lastModifiedDate" : 1793629325.546827000
     }, {
-      "id" : "58fbc795-faf0-4ce7-9bd0-faa89a7648c4",
+      "id" : "acbdb143-87ec-42fe-9f77-32465acad284",
       "required" : false,
       "label" : "fmu_output_interval",
       "description" : "Output sampling interval in minutes. Must be <= fmu_step_size. Defaults to fmu_step_size if not set. Smaller values produce more output rows per PROOF step.",
@@ -693,9 +693,9 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492854000
+      "lastModifiedDate" : 1793629325.546868000
     }, {
-      "id" : "0b4b83d1-e2ae-4fdb-981b-e2e5d81437bc",
+      "id" : "0f423ede-49d1-4b66-92bb-925e288e4bd3",
       "required" : false,
       "label" : "license_file_name",
       "description" : "License file necessary to run the FMU. Must be provided directly or via config file.",
@@ -709,9 +709,9 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492892000
+      "lastModifiedDate" : 1793629325.546907000
     }, {
-      "id" : "75e7c66f-5cf9-4f28-979d-8c1d3d55eb67",
+      "id" : "cb9084e8-fcaf-48ba-8a85-3fa46a90458f",
       "required" : true,
       "label" : "fmu_input_values",
       "description" : "Schedule of input values. Flat list for single-input FMUs, list of lists for multi-input. FMI 3.0 array values are space-separated. One entry per setpoint_step_size interval. Optional.",
@@ -725,31 +725,16 @@
       "createdBy" : null,
       "lastModifiedBy" : "proof",
       "creationDate" : null,
-      "lastModifiedDate" : 1793113123.492929000
+      "lastModifiedDate" : 1793629325.546965000
     } ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793111606.315124000,
-    "lastModifiedDate" : 1793111606.333413000,
+    "creationDate" : 1793629000.583766000,
+    "lastModifiedDate" : 1793629000.603838000,
     "shutdownRelevant" : true,
     "interfaceType" : "STDIO"
   } ],
   "connections" : [ {
-    "id" : "d2d283b7-a0b5-453c-8884-08259d897490",
-    "type" : "block",
-    "connectionType" : "STRING",
-    "source" : "5dc47142-fb14-4edf-afad-42a097060263",
-    "output" : "e6ab9d46-b8a8-413a-b209-a5efeaf1ea1d",
-    "target" : "22c13a2e-6328-44ca-8c72-df1ea1a3471f",
-    "input" : "75e7c66f-5cf9-4f28-979d-8c1d3d55eb67",
-    "animated" : null,
-    "algorithm" : "bezier-catmull-rom",
-    "points" : [ ],
-    "createdBy" : "proof",
-    "lastModifiedBy" : "proof",
-    "creationDate" : 1793113063.883019000,
-    "lastModifiedDate" : 1793113123.492286000
-  }, {
     "id" : "5ec3a1a6-0005-4ac6-a72a-e10efcadc9e5",
     "type" : "block",
     "connectionType" : "STRING",
@@ -762,10 +747,10 @@
     "points" : [ ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793111606.324983000,
-    "lastModifiedDate" : 1793111606.333732000
+    "creationDate" : 1793629000.594678000,
+    "lastModifiedDate" : 1793629000.604363000
   }, {
-    "id" : "42777f03-5c09-425d-8ff2-9f9508ccc534",
+    "id" : "6efc31a8-a846-42b5-9b1f-fde5aafd0aa0",
     "type" : "block",
     "connectionType" : "STRING",
     "source" : "22c13a2e-6328-44ca-8c72-df1ea1a3471f",
@@ -777,10 +762,10 @@
     "points" : [ ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793113063.884938000,
-    "lastModifiedDate" : 1793113123.492126000
+    "creationDate" : 1793629265.202163000,
+    "lastModifiedDate" : 1793629325.546009000
   }, {
-    "id" : "1118d3ed-69e7-4d9f-a2c3-e8b543d86b22",
+    "id" : "c63c8d38-a365-427d-9b86-0a45fa7b5067",
     "type" : "block",
     "connectionType" : "STRING",
     "source" : "22c13a2e-6328-44ca-8c72-df1ea1a3471f",
@@ -792,11 +777,26 @@
     "points" : [ ],
     "createdBy" : "proof",
     "lastModifiedBy" : "proof",
-    "creationDate" : 1793113063.886624000,
-    "lastModifiedDate" : 1793113123.492223000
+    "creationDate" : 1793629265.203768000,
+    "lastModifiedDate" : 1793629325.546128000
+  }, {
+    "id" : "01afd7dc-6014-40de-a681-1ed4a91ce7aa",
+    "type" : "block",
+    "connectionType" : "STRING",
+    "source" : "5dc47142-fb14-4edf-afad-42a097060263",
+    "output" : "e6ab9d46-b8a8-413a-b209-a5efeaf1ea1d",
+    "target" : "22c13a2e-6328-44ca-8c72-df1ea1a3471f",
+    "input" : "cb9084e8-fcaf-48ba-8a85-3fa46a90458f",
+    "animated" : null,
+    "algorithm" : "bezier-catmull-rom",
+    "points" : [ ],
+    "createdBy" : "proof",
+    "lastModifiedBy" : "proof",
+    "creationDate" : 1793629265.200112000,
+    "lastModifiedDate" : 1793629325.546191000
   } ],
   "createdBy" : "proof",
   "lastModifiedBy" : "proof",
-  "creationDate" : 1793111606.281746000,
-  "lastModifiedDate" : 1793111606.331091000
+  "creationDate" : 1793629000.553448000,
+  "lastModifiedDate" : 1793629000.600264000
 }
