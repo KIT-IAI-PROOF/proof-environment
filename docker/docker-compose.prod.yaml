@@ -161,7 +161,7 @@ services:
 
   proof-importer:
     container_name: proof-importer
-    image: ghcr.io/kit-iai-proof/proof-importer:1.0.0
+    image: ghcr.io/kit-iai-proof/proof-importer:1.1.0-dev0
     restart: *restart-policy
     platform: linux/amd64
     networks:
