@@ -1,0 +1,64 @@
+{
+  "id": "id_template_1_DataFeeder_fmu",
+  "name": "1. DataFeeder FMU",
+  "description": "Simple Building Model: DataFeeder",
+  "blockType": "BASE",
+  "type": "block",
+  "inputs": [
+    {
+      "label": "fmu_file_path",
+      "description": "Path to the FMU file (relative to the userdata or py-file directory or absolute).",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "fmu_file_path",
+      "required": true,
+      "defaultValue": "DataFeeder.fmu",
+      "communicationType": "STEPBASED_STATIC"
+    }
+  ],
+  "outputs": [{
+      "label": "irradiance",
+      "description": "irradiance of Block 1_DataFeeder",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "irradiance",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "outdoor_temp",
+      "description": "Outdoor temperature of Block 1_DataFeeder",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "unit": "°C",
+      "modelVarName": "outdoor_temp",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "price",
+      "description": "Price of Block 1_DataFeeder",
+      "type": "FLOAT",
+      "phase": "EXECUTE",
+      "modelVarName": "price",
+      "communicationType": "STEPBASED"
+    }],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.1-fmpy",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "communicationParadigm": "STEPBASED",
+  "shutdownRelevant": "true",
+  "program": {
+    "id": "id_prog_1_DataFeeder_fmu",
+    "label": "prog_1_DataFeeder_fmu",
+    "description": "Simple Building Model: DataFeeder",
+    "tag": "prog_1_DataFeeder FMU",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_1_DataFeeder_fmu",
+    "attachments": [
+      {
+        "id": "id_attachment_1_DataFeeder_fmu",
+        "label": "attachment_1_DataFeeder_fmu",
+        "path": "1_DataFeeder_fmu.py",
+        "description": "Simple Building Model: DataFeeder"
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "id_template_config_fmu_runner",
+  "name": "Config FMU Runner",
+  "description": "Runs an FMU (Functional Mock-up Unit) where the configuration is described in a config file.",
+  "blockType": "BASE",
+  "type": "block",
+  "color": "#009000",
+  "inputs": [
+    {
+      "label": "config_file_name",
+      "description": "Name of the JSON configuration file in the Attachment folder (e.g. facility_param.json)",
+      "type": "FILE_NAME",
+      "phase": "INIT",
+      "modelVarName": "config_file_name",
+      "required": true,
+      "defaultValue": "facility_param.json",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_name",
+      "description": "Key name of the FMU entry inside the configuration JSON file",
+      "type": "STRING",
+      "phase": "INIT",
+      "modelVarName": "fmu_name",
+      "required": true,
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_input_values",
+      "description": "Schedule of input values. Flat list for single-input FMUs, list of lists for multi-input. FMI 3.0 array values are space-separated. One entry per setpoint_step_size interval. Optional.",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "fmu_input_values",
+      "required": true,
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "outputs": [
+    {
+      "label": "fmu_output_json",
+      "description": "Simulation results as a JSON string",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "fmu_output_json",
+      "communicationType": "STEPBASED"
+    },
+    {
+      "label": "fmu_output_csv",
+      "description": "Simulation results as a CSV string",
+      "type": "STRING",
+      "phase": "EXECUTE",
+      "modelVarName": "fmu_output_csv",
+      "communicationType": "STEPBASED"
+    }
+  ],
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "communicationParadigm": "STEPBASED",
+  "syncStrategy": "WAIT_FOR_SYNC",
+  "shutdownRelevant": "true",
+  "program": {
+    "id": "id_prog_fmu_runner",
+    "label": "prog_fmu_runner",
+    "description": "Runs an FMU",
+    "tag": "fmuRunner",
+    "runtime": "PYTHON",
+    "entryPoint": "id_attachment_fmu_runner",
+    "attachments": [
+      {
+        "id": "id_attachment_fmu_runner",
+        "label": "attachment_fmu_runner",
+        "path": "fmu_runner.py",
+        "description": "FMU Runner wrapper script"
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 {
     "id" : "demo_FileReader2FileWriter",
-    "label" : "DEMO_FileReader-to-FileWriter (python)",
+    "label" : "DEMO_FileReader-to-FileWriter",
     "description" : "A simple test workflow that reads from a file and writes to another file",
     "communicationParadigm" : "STEPBASED",
     "simulationStrategy" : "WAIT_AND_CONTINUE",
@@ -13,6 +13,8 @@
       "duration" : 250,
       "defaultStepSize" : 1,
       "stepSizeDefinitions" : { },
+      "workerTimeout" : 10,
+      "inputTimeout" : 10,
       "createdBy" : "proof",
       "lastModifiedBy" : "proof",
       "creationDate" : 1784103601.882078000,
@@ -29,7 +31,7 @@
       "textColor" : "#ffffff",
       "type" : "block",
       "blockType" : "BASE",
-      "containerImage" : "ghcr.io/kit-iai-proof/proof-worker-python:1.3.1",
+      "containerImage" : "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:2.4.8-dev3",
       "status" : null,
       "communicationParadigm" : "STEPBASED",
       "syncStrategy" : "WAIT_FOR_SYNC",
@@ -69,7 +71,7 @@
         "modelVarName" : "line",
         "communicationType" : "STEPBASED",
         "createdBy" : null,
-        "lastModifiedBy" : "anonymous",
+        "lastModifiedBy" : "proof",
         "creationDate" : null,
         "lastModifiedDate" : 1784103817.147778000
       } ],
@@ -86,7 +88,7 @@
         "phase" : "INIT",
         "communicationType" : "STEPBASED_STATIC",
         "createdBy" : null,
-        "lastModifiedBy" : "anonymous",
+        "lastModifiedBy" : "proof",
         "creationDate" : null,
         "lastModifiedDate" : 1784103817.147863000
       }, {
@@ -139,10 +141,10 @@
       "textColor" : "#ffffff",
       "type" : "block",
       "blockType" : "BASE",
-      "containerImage" : "ghcr.io/kit-iai-proof/proof-worker-python:1.3.1",
+      "containerImage" : "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:2.4.8-dev3",
       "status" : null,
       "communicationParadigm" : "STEPBASED",
-      "syncStrategy" : "WAIT_FOR_SYNC",
+      "syncStrategy" : "ALL_VALUES",
       "position" : {
         "x" : 443,
         "y" : 227

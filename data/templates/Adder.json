@@ -1,7 +1,7 @@
 {
   "id": "id_template_adder",
   "name": "Adder",
-  "description": "adder gives sum of two parameters",
+  "description": "Adder gives sum of two parameters",
   "blockType": "BASE",
   "type": "block",
   "color": "#37e142",
@@ -35,7 +35,7 @@
       "communicationType": "STEPBASED"
     }
   ],
-  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.1",
+  "containerImage": "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:latest",
   "communicationParadigm": "STEPBASED",
   "syncStrategy": "WAIT_FOR_SYNC",
   "shutdownRelevant": "false",
