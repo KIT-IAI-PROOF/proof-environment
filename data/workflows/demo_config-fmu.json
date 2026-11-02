@@ -254,7 +254,7 @@
     "containerImage" : "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:2.4.8-dev3",
     "status" : null,
     "communicationParadigm" : "STEPBASED",
-    "syncStrategy" : "ALL_VALUES",
+    "syncStrategy" : "WAIT_FOR_SYNC",
     "position" : {
       "x" : 525,
       "y" : 454
@@ -399,7 +399,7 @@
     "containerImage" : "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:2.4.8-dev3",
     "status" : null,
     "communicationParadigm" : "STEPBASED",
-    "syncStrategy" : "ALL_VALUES",
+    "syncStrategy" : "WAIT_FOR_SYNC",
     "position" : {
       "x" : 689,
       "y" : 354
