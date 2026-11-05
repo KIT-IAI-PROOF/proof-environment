@@ -1,6 +1,6 @@
 {
   "id": "id_template_single_fmu_runner_no_input",
-  "name": "Single FMU Runner (no input)",
+  "name": "Single FMU Runner - no input",
   "description": "Runs a single FMU (Functional Mock-up Unit) without inputs as configured in the static inputs",
   "blockType": "BASE",
   "type": "block",

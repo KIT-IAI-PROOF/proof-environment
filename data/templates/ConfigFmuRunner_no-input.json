@@ -1,6 +1,6 @@
 {
   "id": "id_template_config_fmu_runner_no_input",
-  "name": "Config FMU Runner (no input)",
+  "name": "Config FMU Runner - no input",
   "description": "Runs an FMU (Functional Mock-up Unit) without inputs where the configuration is described in a config file.",
   "blockType": "BASE",
   "type": "block",
