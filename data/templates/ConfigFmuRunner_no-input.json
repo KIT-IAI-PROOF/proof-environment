@@ -1,6 +1,6 @@
 {
   "id": "id_template_config_fmu_runner_no_input",
-  "name": "Config FMU Runner (no input)",
+  "name": "Config FMU Runner - no input",
   "description": "Runs an FMU (Functional Mock-up Unit) without inputs where the configuration is described in a config file.",
   "blockType": "BASE",
   "type": "block",
@@ -24,6 +24,28 @@
       "modelVarName": "fmu_name",
       "required": true,
       "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_step_size",
+      "description": "Duration of each FMU time step in minutes",
+      "type": "FLOAT",
+      "phase": "INIT",
+      "unit": "minutes",
+      "modelVarName": "fmu_step_size",
+      "required": false,
+      "defaultValue": "15",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_output_interval",
+      "description": "Output sampling interval in minutes. Must be <= fmu_step_size. Defaults to fmu_step_size if not set. Smaller values produce more output rows per PROOF step.",
+      "type": "FLOAT",
+      "phase": "INIT",
+      "unit": "minutes",
+      "modelVarName": "fmu_output_interval",
+      "required": false,
+      "defaultValue": "",
+      "communicationType": "STEPBASED_STATIC"
     }
   ],
   "outputs": [
@@ -44,7 +66,7 @@
       "communicationType": "STEPBASED"
     }
   ],
-  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:latest-fmpy",
   "communicationParadigm": "STEPBASED",
   "syncStrategy": "WAIT_FOR_SYNC",
   "shutdownRelevant": "true",

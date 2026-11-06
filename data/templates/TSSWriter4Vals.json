@@ -134,7 +134,7 @@
     }
   ],
   "outputs": [],
-  "containerImage": "iai-artifactory.iai.kit.edu/docker-webis/proof-2/proof-worker-python:latest",
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:latest",
   "communicationParadigm": "STEPBASED",
   "syncStrategy": "WAIT_FOR_SYNC",
   "shutdownRelevant": "false",
