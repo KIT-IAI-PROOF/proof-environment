@@ -26,6 +26,28 @@
       "communicationType": "STEPBASED_STATIC"
     },
     {
+      "label": "fmu_step_size",
+      "description": "Duration of each FMU time step in minutes",
+      "type": "FLOAT",
+      "phase": "INIT",
+      "unit": "minutes",
+      "modelVarName": "fmu_step_size",
+      "required": false,
+      "defaultValue": "15",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
+      "label": "fmu_output_interval",
+      "description": "Output sampling interval in minutes. Must be <= fmu_step_size. Defaults to fmu_step_size if not set. Smaller values produce more output rows per PROOF step.",
+      "type": "FLOAT",
+      "phase": "INIT",
+      "unit": "minutes",
+      "modelVarName": "fmu_output_interval",
+      "required": false,
+      "defaultValue": "",
+      "communicationType": "STEPBASED_STATIC"
+    },
+    {
       "label": "fmu_input_values",
       "description": "Schedule of input values. Flat list for single-input FMUs, list of lists for multi-input. FMI 3.0 array values are space-separated. One entry per setpoint_step_size interval. Optional.",
       "type": "STRING",
