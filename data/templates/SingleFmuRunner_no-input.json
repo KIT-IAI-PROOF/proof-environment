@@ -1,6 +1,6 @@
 {
   "id": "id_template_single_fmu_runner_no_input",
-  "name": "Single FMU Runner (no input)",
+  "name": "Single FMU Runner - no input",
   "description": "Runs a single FMU (Functional Mock-up Unit) without inputs as configured in the static inputs",
   "blockType": "BASE",
   "type": "block",
@@ -87,7 +87,7 @@
       "communicationType": "STEPBASED"
     }
   ],
-  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:1.3.0",
+  "containerImage": "ghcr.io/kit-iai-proof/proof-worker-python:latest-fmpy",
   "communicationParadigm": "STEPBASED",
   "syncStrategy": "WAIT_FOR_SYNC",
   "shutdownRelevant": "true",
