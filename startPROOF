@@ -38,13 +38,12 @@ echo "PROOF Service Versions "
 
 cd docker
 
-COMPOSE_FILE="docker-compose.prod.yaml"
+COMPOSE_FILE="docker-compose.yaml"
 DETACHED=true
 DO_IMPORT=true
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -D|--dev)  COMPOSE_FILE="docker-compose.dev.yaml"; shift ;; ## Use docker-compose.dev.yaml instead of prod
     -f|--compose-file) COMPOSE_FILE="$2"; shift 2 ;;            ## Set custom docker compose file path (relative to docker/)
     -l|--logging) DETACHED=false; shift ;;                      ## Show logs after starting services
     -p|--port) PROOF_FRONTEND_PORT="$2"; shift 2 ;;             ## Override the frontend port (PROOF_FRONTEND_PORT)
