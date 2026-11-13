@@ -90,24 +90,6 @@ services:
       proof-rabbitmq:
         condition: service_healthy
 
-  proof-monitoring-service:
-    container_name: proof-monitoring-service
-    image: ghcr.io/kit-iai-proof/proof-monitoring-service:1.0.0
-    restart: *restart-policy
-    platform: linux/amd64
-    networks:
-      - proof
-    environment:
-      SPRING_PROFILES_ACTIVE: "dev"
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://proof-postgres:5432/proof"
-      SPRING_RABBITMQ_HOST: "proof-rabbitmq"
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/certs
-      SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN-URI: http://proof-keycloak:8080/realms/proof/protocol/openid-connect/token
-    ports:
-      - "8085:8085"
-    depends_on:
-      proof-rabbitmq:
-        condition: service_healthy
 
   proof-orchestrator:
     container_name: proof-orchestrator
