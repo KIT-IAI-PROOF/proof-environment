@@ -5,14 +5,19 @@
 
 set -e
 
+# Source common utility functions
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+source "$SCRIPT_DIR/common.sh"
+
 # Configuration
 IMPORTER_URL="${IMPORTER_URL:-http://localhost:8090/v1/import}"
 TEMPLATES_DIR="${TEMPLATES_DIR:-../data/templates}"
 WORKFLOWS_DIR="${WORKFLOWS_DIR:-../data/workflows}"
 WAIT_TIMEOUT="${WAIT_TIMEOUT:-180}"
 IMPORT_TIMEOUT="${IMPORT_TIMEOUT:-300}"
-OVERWRITE="${OVERWRITE:-false}"
+ENABLE_OVERWRITE="${ENABLE_OVERWRITE:-false}"
 CONFIG_MANAGER_URL="${CONFIG_MANAGER_URL:-http://localhost:8100}"
+ENABLE_TIME_MEASUREMENT="${ENABLE_TIME_MEASUREMENT:-false}"
 
 echo "=================================================="
 echo "PROOF Import Script"
@@ -20,41 +25,57 @@ echo "=================================================="
 echo "Importer URL: $IMPORTER_URL"
 echo "Templates directory: $TEMPLATES_DIR"
 echo "Workflows directory: $WORKFLOWS_DIR"
-echo "Overwrite: $OVERWRITE"
+echo "ENABLE_OVERWRITE: $ENABLE_OVERWRITE"
 echo ""
 
-# Function to wait for a service to become responsive
-wait_for_service() {
-    local service_name="$1"
-    local check_command="$2"
-    
-    echo "[STARTUP-IMPORT] Waiting for $service_name..."
-    
-    WAIT_TIME=0
-    while [ $WAIT_TIME -lt $WAIT_TIMEOUT ]; do
-        if eval "$check_command" &>/dev/null; then
-            echo "[STARTUP-IMPORT] ✓ $service_name is ready"
-            return 0
-        fi
-        echo -n "."
-        sleep 2
-        WAIT_TIME=$((WAIT_TIME + 2))
-    done
-    
-    echo ""
-    echo "[STARTUP-IMPORT] ERROR: Timed out waiting for $service_name after $WAIT_TIMEOUT seconds"
-    echo "[STARTUP-IMPORT] Make sure PROOF is running: startPROOF -D"
-    return 1
-}
+# --- Timing measurement ---
+if [ "$ENABLE_TIME_MEASUREMENT" = "true" ]; then
+    start_time=$(date +%s%N) # nanosecond timestamp at script-start of waiting phase
+    echo "start_time: $(date '+%Y-%m-%d %H:%M:%S.%3N')"
+fi
 
 # Wait for proof-config-manager to become responsive
-if ! wait_for_service "proof-config-manager API at ${CONFIG_MANAGER_URL}/" "curl -s -m 2 \"${CONFIG_MANAGER_URL}/v1/health\""; then
+if ! wait_for_config_manager "$CONFIG_MANAGER_URL" "$WAIT_TIMEOUT" "STARTUP-IMPORT"; then
     exit 1
 fi
 
+if [ "$ENABLE_TIME_MEASUREMENT" = "true" ]; then
+    config_manager_ready_time=$(date +%s%N)
+    elapsed_config_ms=$(( (config_manager_ready_time - start_time) / 1000000 ))
+    echo "curr_time: $(date '+%Y-%m-%d %H:%M:%S.%3N') => waiting took ${elapsed_config_ms} ms"
+fi
+
 # Wait for proof-importer REST API to become responsive
-if ! wait_for_service "proof-importer REST API at $IMPORTER_URL/template" "curl -s -m 5 -X POST '$IMPORTER_URL/template' 2>/dev/null | grep -q ."; then
+if ! wait_for_proof_importer "$IMPORTER_URL" "$WAIT_TIMEOUT" "STARTUP-IMPORT"; then
     exit 1
+fi
+
+# Check whether the PROOF database currently contains any templates or workflows.
+# Returns 0 (true) only if both are empty; falls back to "not empty" if the check itself fails,
+# so reference checks default to the safer "true" behavior.
+is_db_empty() {
+    local templates
+    local workflows
+
+    templates=$(curl -s -m 5 "${CONFIG_MANAGER_URL}/v1/template" 2>/dev/null) || return 1
+    workflows=$(curl -s -m 5 "${CONFIG_MANAGER_URL}/v1/workflow" 2>/dev/null) || return 1
+
+    [ "$templates" = "[]" ] && [ "$workflows" = "[]" ]
+}
+
+echo "[STARTUP-IMPORT] Checking if PROOF database is empty..."
+DEFAULT_CHECK_REFERENCES="true"
+if is_db_empty; then
+    echo "[STARTUP-IMPORT] Database is empty - disabling reference checks by default"
+    DEFAULT_CHECK_REFERENCES="false"
+else
+    echo "[STARTUP-IMPORT] Database already contains data - reference checks enabled by default"
+fi
+
+if [ "$ENABLE_TIME_MEASUREMENT" = "true" ]; then
+    importer_ready_time=$(date +%s%N)
+    elapsed_total_ms=$(( (importer_ready_time - start_time) / 1000000 ))
+    echo "curr_time: $(date '+%Y-%m-%d %H:%M:%S.%3N') => total waiting took ${elapsed_total_ms} ms"
 fi
 
 echo ""
@@ -108,7 +129,7 @@ import_files() {
         echo -n "[STARTUP-IMPORT]   [$count/$total] Importing $file_name... "
         
         local container_path="${container_prefix}/${file_name}"
-        local api_url="$IMPORTER_URL/${api_endpoint}?${api_endpoint}Path=${container_path}&save=true&overwrite=$OVERWRITE&checkReferences=$check_references"
+        local api_url="$IMPORTER_URL/${api_endpoint}?${api_endpoint}Path=${container_path}&save=true&overwrite=$ENABLE_OVERWRITE&checkReferences=$check_references"
         
         if response=$(curl -s -m $IMPORT_TIMEOUT -X POST "$api_url" 2>&1); then
             if echo "$response" | grep -q '"status":"ERROR"'; then
@@ -159,7 +180,7 @@ import_files() {
 echo "[STARTUP-IMPORT] Importing templates..."
 echo ""
 template_result=0
-import_files "$TEMPLATES_DIR" "template" "/proof/templates" "template" "true" || template_result=$?
+import_files "$TEMPLATES_DIR" "template" "/proof/templates" "template" "$DEFAULT_CHECK_REFERENCES" || template_result=$?
 
 # Capture template import results
 template_error_count=$LAST_IMPORT_ERROR_COUNT
@@ -169,7 +190,7 @@ template_id_exists_count=$LAST_IMPORT_ID_EXISTS_COUNT
 # When all templates were imported, we know that the program and attachment references fit the 
 # workflow reference and we accept that there are references already.
 # Remark: Ideally we would need to check only for the respectve workflow templates.
-check_workflow_references="true"
+check_workflow_references="$DEFAULT_CHECK_REFERENCES"
 if [ $template_error_count -eq 0 ] && [ $template_id_exists_count -eq 0 ]; then
     check_workflow_references="false"
 fi
