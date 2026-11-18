@@ -93,7 +93,7 @@ services:
 
   proof-orchestrator:
     container_name: proof-orchestrator
-    image: ghcr.io/kit-iai-proof/proof-orchestrator:1.4.0
+    image: ghcr.io/kit-iai-proof/proof-orchestrator:1.4.1
     restart: *restart-policy
     platform: linux/amd64
     volumes:
