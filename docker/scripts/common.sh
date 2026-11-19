@@ -35,7 +35,7 @@ wait_for_service() {
     
     echo ""
     echo "$prefix ERROR: Timed out waiting for $service_name after $WAIT_TIMEOUT seconds"
-    echo "$prefix Make sure PROOF is running: startPROOF -D"
+    echo "$prefix Make sure PROOF is running: startPROOF"
     return 1
 }
 
