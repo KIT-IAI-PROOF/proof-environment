@@ -1,5 +1,29 @@
 SCRIPT_PATH="$(realpath "$0")"
 
+# Check that Docker is available
+if ! command -v docker &> /dev/null; then
+    echo "ERROR: Docker is not installed. Please install Docker (https://docs.docker.com/get-docker/) and try again." >&2
+    exit 1
+fi
+
+# Check that the Docker Compose v2 plugin is available
+if ! docker compose version &> /dev/null; then
+    echo "ERROR: Docker Compose is not available. Please install the Docker Compose v2 plugin (https://docs.docker.com/compose/install/) and try again." >&2
+    exit 1
+fi
+
+echo "==============================="
+echo " Docker Version Check"
+echo "==============================="
+docker --version
+docker compose version
+
+# Check that the Docker daemon is running
+if ! docker info &> /dev/null; then
+    echo "ERROR: Docker daemon is not running. Please start Docker and try again." >&2
+    exit 1
+fi
+
 print_help() {
   echo "Usage: startPROOF [OPTIONS]"
   echo "Starts PROOF services, prints image versions, then runs docker compose up."
