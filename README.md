@@ -1,5 +1,5 @@
 # PROOF 
-The complete documentation can be found at [https://kit-iai-proof.github.io](https://kit-iai-proof.github.io).
+The complete documentation for the PROOF framework can be found in the [PROOF Documentation](https://kit-iai-proof.github.io/). To get started, see the [Installation & Setup](https://kit-iai-proof.github.io/GettingStarted/installation/) guide. Additional information about the project is available on the [KIT-IAI PROOF project page](http://iai.kit.edu/proof).
 
 ## Execution with Docker
 The Docker environment (Docker engine) must be installed on your host system. 
