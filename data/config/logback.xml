@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="HOST" source="spring.rabbitmq.host"/>
+    <springProperty scope="context" name="PORT" source="spring.rabbitmq.port"/>
+    <springProperty scope="context" name="USER" source="spring.rabbitmq.username"/>
+    <springProperty scope="context" name="PASS" source="spring.rabbitmq.password"/>
+    <springProperty scope="context" name="NAME" source="app.name"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>
+                %cyan([%date{"yyyy-MM-dd"}) %red(%date{"HH:mm:ss.SSS",UTC}])-%highlight([%-5p]) -- %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="CONSOLE_DEBUG" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>
+                %cyan([%date{"yyyy-MM-dd"}) %blue(%date{"HH:mm:ss.SSS",UTC}])-%highlight([%-5p])-%blue([%-45.45(%C{0}.%M:%L)]) -- %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="AMQP" class="org.springframework.amqp.rabbit.logback.AmqpAppender">
+        <layout>
+            <pattern><![CDATA[ %d %p %t [%C] - <%m>%n ]]></pattern>
+        </layout>
+        <host>${HOST}</host>
+        <port>${PORT}</port>
+        <username>${USER}</username>
+        <password>${PASS}</password>
+        <applicationId>${NAME}</applicationId>
+        <routingKeyPattern>logs.${NAME}</routingKeyPattern>
+        <exchangeName>logs</exchangeName>
+        <exchangeType>topic</exchangeType>
+        <declareExchange>true</declareExchange>
+        <generateId>true</generateId>
+        <charset>UTF-8</charset>
+        <durable>true</durable>
+        <deliveryMode>PERSISTENT</deliveryMode>
+    </appender>
+    <logger name="edu.kit.iai.webis.proofworker" level="debug"/>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="CONSOLE_DEBUG"/>
+        <appender-ref ref="AMQP"/>
+    </root>
+</configuration>
