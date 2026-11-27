@@ -33,6 +33,6 @@ REM Try native call as last resort if an error occurred.
 REM This is not preferred as it does not include some user friendly features.
 :nativeCall
 	echo An error occurred. Trying with direct call:
-	echo docker compose -f docker/docker-compose.prod.yaml --env-file docker/proof.env up
-	docker compose -f docker/docker-compose.prod.yaml --env-file docker/proof.env up
+	echo docker compose -f docker/docker-compose.yaml --env-file docker/proof.env up
+	docker compose -f docker/docker-compose.yaml --env-file docker/proof.env up
 goto :eof
